@@ -1,0 +1,11 @@
+.formBorder.borders textarea,
+.formBorder.borders input {
+    border: 2px solid red;
+}
+.formBorder.borders span
+{
+    color: red;
+}
+angie {
+    width: 550px;
+}

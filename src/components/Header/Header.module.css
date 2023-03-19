@@ -1,0 +1,15 @@
+.header {
+    grid-area: h;
+    background-color: green;
+}
+
+.header img {
+    width: 100px;
+}
+.login {
+    float: right;
+    color: black;
+}
+.gogogo {
+    color: black;
+}

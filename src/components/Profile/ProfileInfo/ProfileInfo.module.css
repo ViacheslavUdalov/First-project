@@ -1,0 +1,12 @@
+img {
+    width: 100px;
+}
+.imgs {
+   width: 100px;
+    height: 100px;
+}
+.info {
+    padding: 10px;
+    border: green 1px solid;
+    display: flex;
+}
