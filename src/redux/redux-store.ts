@@ -13,10 +13,8 @@ const rootReducer = combineReducers({
         dialogsPage: dialogsReducer,
         auth: authReducer,
         app: AppReducer })
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 export type AppStateType = ReturnType<typeof rootReducer>;
-
 type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
 export type BaseThunkType<ActionTypes extends Action,
     ReturnType = Promise<void>> = ThunkAction<ReturnType,

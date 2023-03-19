@@ -1,6 +1,6 @@
 import {Suspense} from "react";
-
-const AppSuspense  = (Component) => (props) =>{
+type Props = {}
+const AppSuspense  = (Component: any) => (props: Props) =>{
     return (
         <div>
             <Suspense fallback={<div>Loading...</div>}>
