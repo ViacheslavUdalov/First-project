@@ -13,6 +13,7 @@ import {
 } from "./users-selector";
 import {useAppDispatch, useAppSelector} from "../../redux/redux-store";
 import {UserType} from "../../types/Types";
+import {useNavigate} from "react-router-dom";
 
 type Props = {}
 const Users: React.FC<Props> = (props) => {
@@ -29,7 +30,6 @@ const Users: React.FC<Props> = (props) => {
     const filter = useAppSelector(getFilter)
 
     const dispatch = useAppDispatch()
-
     useEffect(() => {
         dispatch(getUsers(currentPage, pageSize, filter))
     }, [])
