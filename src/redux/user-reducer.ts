@@ -52,7 +52,7 @@ const UsersPage = (state = initialState, action: ActionsType): initialStateType 
                 ...state,
                 followingProcess: action.isFetching
                     ? [...state.followingProcess, action.userId]
-                    : state.followingProcess.filter(id => id != action.userId)
+                    : state.followingProcess.filter(id => id !== action.userId)
             }
         }
         case FOLLOW: {

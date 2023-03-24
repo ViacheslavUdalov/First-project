@@ -1,7 +1,7 @@
 import React from "react";
 import {Navigate} from "react-router-dom";
 import {connect} from "react-redux";
-import {AppStateType, useAppSelector} from "../redux/redux-store";
+import {AppStateType} from "../redux/redux-store";
 
 export const WithAuthRedirect = (Component: any) => {
     type Props = {

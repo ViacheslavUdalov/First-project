@@ -13,15 +13,10 @@ import {
 } from "./users-selector";
 import {useAppDispatch, useAppSelector} from "../../redux/redux-store";
 import {UserType} from "../../types/Types";
-import {useNavigate} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 
 type Props = {}
 const Users: React.FC<Props> = (props) => {
-    const onSubmit = (values: FormType) => onFilterChanged(values);
-    type FormType = {
-        term: string
-        friend: null | boolean
-    }
     const users = useAppSelector(getUsersState)
     const pageSize = useAppSelector(getPageSize)
     const totalCount = useAppSelector(getTotalCount)
@@ -30,14 +25,45 @@ const Users: React.FC<Props> = (props) => {
     const filter = useAppSelector(getFilter)
 
     const dispatch = useAppDispatch()
+    const [searchParams, setSearchParams] = useSearchParams()
+    // const postQuery = searchParams.get('term') || ''
+
     useEffect(() => {
-        dispatch(getUsers(currentPage, pageSize, filter))
+        let result: any = {}
+        // @ts-ignore
+        for (const [key, value] of searchParams.entries()) {
+            let value2: any = +value
+            if (isNaN(value2)) {
+                value2 = value
+            }
+            if (value2 === 'true') {
+                value2 = true
+            } else if (value2 === 'false') {
+                value2 = false
+            }
+            result[key] = value2
+        }
+        let actualPage = result.page || currentPage
+        let term = result.term || filter.term
+        let friend = result.friend || filter.friend
+        if (result.friend === false) {
+            friend = result.friend
+        }
+        const actualFilter = {term, friend}
+         dispatch(getUsers(actualPage, pageSize, actualFilter))
     }, [])
+    useEffect(() => {
+        const term = filter.term
+        const friend = filter.friend
+        let URLQuery =
+            (term === "" ? "" : `&term=${term}`)
+        + (friend === null ? '' : `&friend=${friend}`)
+        + (currentPage === 1 ? '' : `&page=${currentPage}`)
+        setSearchParams(URLQuery)
+        // eslint-disable-next-line
+    }, [filter, currentPage])
     const onPageChanged = (pageNumber: number) => {
         dispatch(getUsers(pageNumber, pageSize, filter))
-    }
-    const onFilterChanged = (filter: FilterType) => {
-        dispatch(getUsers(1, pageSize, filter))
     }
     const follow = (userId: number) => {
         dispatch(followThunk(userId))
@@ -50,7 +76,7 @@ const Users: React.FC<Props> = (props) => {
                    pageSize={pageSize} currentPage={currentPage}
                    onPageChanged={onPageChanged}/>
         <div>
-            <UsersForm onSubmit={onSubmit}/>
+            <UsersForm />
         </div>
         <div>
             {users.map((u: UserType) => <User key={u.id}

@@ -18,7 +18,6 @@ function Header (props: PropsType) {
         <img src='https://games.mail.ru/pre_0x736_resize/hotbox/content_files/game/2022/06/07/c0b5873e12fe45f3970dcfc5cd6e612b.jpg?quality=85' alt = "stormgate"/>
         <div className={s.login}>
             {isAuth ? <div>{login} - <button onClick = {Logout}>Logout</button></div> :
-                // eslint-disable-next-line react/jsx-no-undef
             <NavLink to='/login'>Login</NavLink>
             }
         </div>

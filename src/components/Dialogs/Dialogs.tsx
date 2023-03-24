@@ -3,9 +3,9 @@ import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {useForm} from "react-hook-form";
-import {initialStateType} from "../../redux/dialogs-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
+
 type PropsDialogsForm = {
     onSubmit: (messageText: any) => void
 }
