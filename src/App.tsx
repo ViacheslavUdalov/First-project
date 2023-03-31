@@ -10,6 +10,7 @@ import {compose} from "redux";
 import Preloader from "./common/preloader";
 import {initializeApp} from "./redux/app-reducer";
 import store, {AppStateType} from "./redux/redux-store";
+import ChatPage from "./components/ChatPage/ChatPage";
 export function withRouter(Children: any) {
     return (props: any) => {
 
@@ -48,6 +49,7 @@ class App extends React.Component<mapStatePropsType & MapDispatchPropsType> {
                             <ProfileContainer />
                         </Suspense>}/>
                         <Route path='/users' element={<UsersContainer/>}/>
+                        <Route path='/chat' element={<ChatPage/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Routes>
                 </div>
