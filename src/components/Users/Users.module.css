@@ -21,7 +21,26 @@
     filter: invert(100%);
 }
 .userImg {
-    margin: 10px 10px 10px 30px;
+margin-bottom: 20px;
+    margin-left: 20px;
     width: 100px;
 border-radius: 50%;
+}
+.wholeUser {
+    padding: 20px 0 20px 40px;
+    border-bottom: 1px #8c8c8c solid;
+    display: flex;
+}
+.userName {
+margin: 5px auto auto 10px;
+    padding-bottom: 10px;
+}
+.userStatus {
+    margin: 20px auto auto 10px;
+}
+.input {
+    width: 60%;
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px #0074D9 solid;
 }

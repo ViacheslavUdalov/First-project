@@ -1,6 +1,6 @@
 import User from "./User";
 import React, {useEffect, useState} from "react";
-import {follow as followThunk, getUsers, unfollow as unfollowThunk} from "../../redux/user-reducer";
+import {FilterType, follow as followThunk, getUsers, unfollow as unfollowThunk} from "../../redux/user-reducer";
 import UsersForm from "./Users-Form";
 import {
     getCurrentPage,
@@ -62,6 +62,9 @@ const Users: React.FC<Props> = (props) => {
         setSearchParams(URLQuery)
         // eslint-disable-next-line
     }, [filter, currentPage])
+    const onFilterChanged = (filter: FilterType) => {
+        dispatch(getUsers(1, pageSize, filter))
+    }
     const onPageChanged: PaginationProps['onChange'] = (pageNumber: number) => {
         dispatch(getUsers(pageNumber, pageSize, filter))
     }
@@ -108,7 +111,7 @@ const Users: React.FC<Props> = (props) => {
         </div>
 
         <div>
-            <UsersForm/>
+            <UsersForm onFilterChanged={onFilterChanged} filter={filter}/>
         </div>
         <div>
             {users.map((u: UserType) => <User key={u.id}

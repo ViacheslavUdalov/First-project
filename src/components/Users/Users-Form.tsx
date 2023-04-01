@@ -1,40 +1,67 @@
-import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
-import {FilterType, getUsers} from "../../redux/user-reducer";
+import {useForm} from "react-hook-form";
+import {FilterType} from "../../redux/user-reducer";
 import React from "react";
-import {AppStateType, useAppDispatch, useAppSelector} from "../../redux/redux-store";
-import {getFilter, getPageSize} from "./users-selector";
-import {TypedUseSelectorHook, useSelector} from "react-redux";
+import styles from './Users.module.css'
 
-type PropsType = {}
-// type FormValuesType = {
-//     term: string
-//     friend: string
-// }
-export default function UsersForm(props: PropsType) {
-    const filter = useAppSelector(getFilter)
-    const {register, handleSubmit, reset} = useForm<FilterType>(
+type PropsType = {
+    onFilterChanged: (filter: FilterType) => void
+    filter: FilterType
+}
+export default function UsersForm({onFilterChanged, filter}: PropsType) {
+
+    const {register, handleSubmit} = useForm<FilterType>(
         {
-            defaultValues: {
-                term: filter.term,
-                friend: filter.friend
-            }
+            defaultValues: filter
         }
     )
-    const pageSize = useAppSelector(getPageSize)
-    const dispatch = useAppDispatch()
-    const onFilterChanged = (filter: FilterType) => {
-        dispatch(getUsers(1, pageSize, filter))
-        reset()
+    // useEffect(() => {
+    //     reset({
+    //         term: filter.term,
+    //         friend: filter.friend
+    //     }, [filter])
+    // })
+    const submit = (values: FilterType) => {
+        const filter2 = {
+            term: values.term,
+            friend: values.friend
+        }
+        onFilterChanged(filter2)
     }
     return (
-        <form onSubmit={handleSubmit(onFilterChanged)}>
-            <input {...register("term")} />
-            <select {...register("friend")}>
-                <option value="null">All</option>
-                <option value="true">Friends</option>
-                <option value="false">Not friends</option>
-            </select>
-            <input type="submit"/>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit(submit)}>
+                <input {...register("term")} className={styles.input}/>
+                <select {...register("friend")}>
+                    <option value="null">All</option>
+                    <option value="true">Friends</option>
+                    <option value="false">Not friends</option>
+                </select>
+                <input type="submit"/>
+            </form>
+        </div>
     );
 }
+
+
+// <Input className={styles.input}
+//        value={filter}
+//        size="large" placeholder="Вы можете найти своих друзей"
+//        prefix={<UserOutlined />} />
+// <Box sx={{ minWidth: 120 }}>
+//     <FormControl fullWidth>
+//         <InputLabel id="friend">выбор</InputLabel>
+//         <Select
+//             labelId="friend"
+//             id="friend"
+//             value={filter.friend}
+//             label="friend"
+//         >
+//             <MenuItem value={"null"}>All</MenuItem>
+//             <MenuItem value={"true"}>Friends</MenuItem>
+//             <MenuItem value={"false"}>Not friends</MenuItem>
+//         </Select>
+//     </FormControl>
+// </Box>
+// <Space wrap>
+//     <Button onClick={submit}>Edit</Button>
+// </Space>

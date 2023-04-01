@@ -1,10 +1,10 @@
 import {NavLink} from "react-router-dom";
-import MainPhoto from "../../common/images/960x0.jpg";
 import React from "react";
 import {UserType} from "../../types/Types";
 import styles from './Users.module.css'
 import emptyIcon from '../../common/images/anonymous-user.webp'
-import { Button, Space } from 'antd';
+import {Button, Space} from 'antd';
+
 type UserPropsType = {
     user: UserType
     followingProcess: Array<number>
@@ -12,8 +12,8 @@ type UserPropsType = {
     unfollow: (userId: number) => void
 }
 const User = ({user, followingProcess, follow, unfollow}: UserPropsType) => {
-    return <div>
-                <span>
+    return <div className={styles.wholeUser}>
+                <div>
                     <div>
                         <NavLink to={'/profile/' + user.id}>
                             <img src={user.photos.small !== null ? user.photos.small : emptyIcon}
@@ -39,9 +39,11 @@ const User = ({user, followingProcess, follow, unfollow}: UserPropsType) => {
                             </Space>
                         }
                     </div>
-                    </span>
-                    <span>{user.name}</span>
-                    <span>{user.status}</span>
+                    </div>
+        <div>
+                    <h3 className={styles.userName}>{user.name}</h3>
+                    <span className={styles.userStatus}>{user.status}</span>
+        </div>
                 </div>
 }
 export default User;
