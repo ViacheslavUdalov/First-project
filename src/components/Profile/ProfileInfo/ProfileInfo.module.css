@@ -1,12 +1,11 @@
-img {
-    width: 100px;
-}
+
 .imgs {
-   width: 100px;
-    height: 100px;
+   width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 20px;
 }
 .info {
     padding: 10px;
-    border: green 1px solid;
     display: flex;
 }

@@ -15,8 +15,9 @@ type PropsType = {
     status: string
     updateStatus: (status: string) => void
 }
+
 const ProfileInfo: React.FC<PropsType> = ({profile, saveProfile, savePhoto, isOwner, status, updateStatus}) => {
-    let [editMode, setEditMode] = useState(false);
+    let [editMode, setEditMode] = useState(false)
     if (!profile) {
         return <Preloader/>
     }
@@ -25,18 +26,21 @@ const ProfileInfo: React.FC<PropsType> = ({profile, saveProfile, savePhoto, isOw
             savePhoto(e.target.files[0]);
         }
     }
+
     const onSubmit = (formData: any) => {
         saveProfile(formData)
                 setEditMode(false)
     }
+
     return (
         <div>
             <div className={cn(s.info)}>
                 <div>
                 <img className={cn(s.imgs)} src={profile.photos.large || TimMorten}/>
-                {isOwner &&
-                    <input type={'file'} onChange={savePhotoFile}/>}
-                <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
+                    {isOwner &&
+                        <input type={'file'} onChange={savePhotoFile}/>//
+                    }
+                <ProfileStatusWithHooks status={status} isOwner = {isOwner} updateStatus={updateStatus}/>
                 </div>
                 {!editMode
                     ? <ProfileData goToEditMode={() => {
@@ -46,9 +50,7 @@ const ProfileInfo: React.FC<PropsType> = ({profile, saveProfile, savePhoto, isOw
                                                 profile={profile}/>}
 
             </div>
-
         </div>
     )
 }
-
 export default ProfileInfo;

@@ -1,7 +1,6 @@
 import User from "./User";
-import Paginator from "../../Helpers/Paginator";
-import React, {useEffect} from "react";
-import {FilterType, follow as followThunk, getUsers, unfollow as unfollowThunk} from "../../redux/user-reducer";
+import React, {useEffect, useState} from "react";
+import {follow as followThunk, getUsers, unfollow as unfollowThunk} from "../../redux/user-reducer";
 import UsersForm from "./Users-Form";
 import {
     getCurrentPage,
@@ -14,6 +13,10 @@ import {
 import {useAppDispatch, useAppSelector} from "../../redux/redux-store";
 import {UserType} from "../../types/Types";
 import {useSearchParams} from "react-router-dom";
+import type {PaginationProps} from 'antd';
+import {Pagination} from 'antd';
+import arrowToTop from '../../common/images/top-arrow-icon-0.jpg'
+import styles from './Users.module.css'
 
 type Props = {}
 const Users: React.FC<Props> = (props) => {
@@ -23,11 +26,8 @@ const Users: React.FC<Props> = (props) => {
     const currentPage = useAppSelector(getCurrentPage)
     const followingProcess = useAppSelector(getFollowingProcess)
     const filter = useAppSelector(getFilter)
-
     const dispatch = useAppDispatch()
     const [searchParams, setSearchParams] = useSearchParams()
-    // const postQuery = searchParams.get('term') || ''
-
     useEffect(() => {
         let result: any = {}
         // @ts-ignore
@@ -50,19 +50,19 @@ const Users: React.FC<Props> = (props) => {
             friend = result.friend
         }
         const actualFilter = {term, friend}
-         dispatch(getUsers(actualPage, pageSize, actualFilter))
+        dispatch(getUsers(actualPage, pageSize, actualFilter))
     }, [])
     useEffect(() => {
         const term = filter.term
         const friend = filter.friend
         let URLQuery =
             (term === "" ? "" : `&term=${term}`)
-        + (friend === null ? '' : `&friend=${friend}`)
-        + (currentPage === 1 ? '' : `&page=${currentPage}`)
+            + (friend === null ? '' : `&friend=${friend}`)
+            + (currentPage === 1 ? '' : `&page=${currentPage}`)
         setSearchParams(URLQuery)
         // eslint-disable-next-line
     }, [filter, currentPage])
-    const onPageChanged = (pageNumber: number) => {
+    const onPageChanged: PaginationProps['onChange'] = (pageNumber: number) => {
         dispatch(getUsers(pageNumber, pageSize, filter))
     }
     const follow = (userId: number) => {
@@ -71,12 +71,44 @@ const Users: React.FC<Props> = (props) => {
     const unfollow = (userId: number) => {
         dispatch(unfollowThunk(userId))
     }
+    const [visible, setVisible] = useState(false)
+    const makeVisible = () => {
+        const scrolled = document.documentElement.scrollTop;
+        if (scrolled > 200) {
+            setVisible(true)
+        } else if (scrolled < 200) {
+            setVisible(false)
+        }
+    }
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+    }
+     window.addEventListener('scroll', makeVisible);
+    // const [needScroll, setNeedScroll] = useState(false)
+    // const scrollToTop = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    //     const element = e.currentTarget
+    //     const HowMuchToScroll = element.scrollTop
+    //     if (HowMuchToScroll > 200) {
+    //         setNeedScroll(true)
+    //     }
+    //     else {
+    //         setNeedScroll(false)
+    //     }
+    // }
     return <div>
-        <Paginator totalItemsCount={totalCount}
-                   pageSize={pageSize} currentPage={currentPage}
-                   onPageChanged={onPageChanged}/>
+        <div className={styles.paginator}>
+            <Pagination
+                total={totalCount}
+                pageSize={pageSize}
+                defaultCurrent={currentPage}
+                onChange={onPageChanged}/>
+        </div>
+
         <div>
-            <UsersForm />
+            <UsersForm/>
         </div>
         <div>
             {users.map((u: UserType) => <User key={u.id}
@@ -88,6 +120,12 @@ const Users: React.FC<Props> = (props) => {
             )
             }
         </div>
+         <div>
+            <img src={arrowToTop} className={styles.arrow} onClick={scrollToTop}
+            style={{visibility: visible ? "visible" : "hidden"}}
+            />
+        </div>
+
     </div>
 }
 export default Users;

@@ -1,5 +1,6 @@
 import React from "react";
 import {ProfileType} from "../../types/Types";
+import { Button, Space } from 'antd';
 type ProfileDataProps = {
     isOwner: boolean
     goToEditMode: () => void
@@ -7,7 +8,11 @@ type ProfileDataProps = {
 }
 const ProfileData: React.FC<ProfileDataProps> = ({isOwner, goToEditMode, profile}) => {
     return <div>
-        {isOwner && <button onClick={goToEditMode}>edit</button>}
+        {isOwner &&
+            <Space wrap>
+            <Button onClick={goToEditMode}>Edit</Button>
+            </Space>
+        }
         <div>
             About me: {profile.aboutMe}
         </div>

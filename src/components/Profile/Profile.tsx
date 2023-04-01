@@ -22,7 +22,7 @@ const Profile = ({profile, isOwner, savePhoto,
                          savePhoto = {savePhoto}
                          updateStatus = {updateStatus}
                          saveProfile={saveProfile} />
-            <MyPostsContainer/>
+            {/*<MyPostsContainer/>*/}
         </div>
     )
 }

@@ -6,6 +6,7 @@ import {logout} from "../../redux/auth-reducer";
 import {NavLink} from "react-router-dom";
 import {AnyAction} from "redux";
 import homeIcon from '../../common/images/home_FILL0_wght500_GRAD0_opsz48.png'
+import {LogoutOutlined} from "@ant-design/icons";
 type PropsType = {}
 function Header (props: PropsType) {
     const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
@@ -20,7 +21,8 @@ function Header (props: PropsType) {
                 <img src={homeIcon} className={styles.images} alt =""/>
             </NavLink>
         <div className={styles.login}>
-            {isAuth ? <div>{login} - <button onClick = {Logout}>Logout</button></div> :
+            {isAuth ? <div>{login} - <button onClick = {Logout}>Logout</button>
+                    <LogoutOutlined /></div> :
             <NavLink to='/login'>Login</NavLink>
             }
         </div>

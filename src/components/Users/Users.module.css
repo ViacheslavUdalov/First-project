@@ -4,3 +4,24 @@
 .pages {
     overflow-wrap: anywhere;
 }
+.paginator {
+    background-color: #4b4bff;
+    width: 65%;
+    border-radius: 30px;
+  padding-left: 40px;
+}
+.arrow {
+    position: fixed;
+    bottom: 60px;
+    left: 60px;
+    width: 60px;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 30px;
+    filter: invert(100%);
+}
+.userImg {
+    margin: 10px 10px 10px 30px;
+    width: 100px;
+border-radius: 50%;
+}

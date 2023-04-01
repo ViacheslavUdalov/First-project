@@ -1,6 +1,7 @@
 import s from "../components/Users/Users.module.css";
 import React, {useState} from "react";
 import classNames from "classnames";
+import style from './Paginator.module.css'
 type Props = {
     totalItemsCount: number,
     pageSize: number,
@@ -8,7 +9,7 @@ type Props = {
     onPageChanged: (pageNumber: number) => void,
     portionSize?: number
 }
-const Paginator: React.FC<Props> = ({totalItemsCount, pageSize, currentPage,
+const Pagination : React.FC<Props> = ({totalItemsCount, pageSize, currentPage,
                        onPageChanged, portionSize = 15}) => {
     let pageCount = Math.ceil(totalItemsCount / pageSize);
     let pages: Array<number> = [];
@@ -23,7 +24,7 @@ const Paginator: React.FC<Props> = ({totalItemsCount, pageSize, currentPage,
         {portionNumber > 1 &&
             <button onClick={() => {
                 setPortionNumber(portionNumber - 1)
-            }}>Previous</button>}
+            }}></button>}
 
         {pages.filter(p => p >= leftPageNumber && p <= rightPageNumber).map(p => {
             return <span className={classNames({[s.page]: currentPage === p}, s.pages)}
@@ -33,9 +34,9 @@ const Paginator: React.FC<Props> = ({totalItemsCount, pageSize, currentPage,
         })}
 
         {portionCount > portionNumber &&
-            <button onClick={() => {
+            <button  onClick={() => {
                 setPortionNumber(portionNumber + 1)
-            }}>Next</button>}
+            }}></button>}
     </div>
 }
-export default Paginator;
+export default Pagination ;
