@@ -7,13 +7,14 @@ type EventNameType = 'messages-received' | 'status-changed'
 const closeHandler = () => {
     notifyAboutStatusChanging('pending')
     setTimeout(createChanel, 3000)
+    console.log('chanel is creating')
 }
 const messageHandler = (e: MessageEvent) => {
     const newMessages = JSON.parse(e.data)
     subscribers['messages-received'].forEach(s => s(newMessages))
 }
 const openHandler = () => {
-    notifyAboutStatusChanging('pending')
+    notifyAboutStatusChanging('ready')
 }
 const errorHandler = () => {
     notifyAboutStatusChanging('error')
@@ -25,7 +26,7 @@ const cleanUp = () => {
     ws?.removeEventListener('close', closeHandler)
     ws?.removeEventListener('message', messageHandler)
     ws?.removeEventListener('open', openHandler)
-    ws?.removeEventListener('error', openHandler)
+    ws?.removeEventListener('error', errorHandler)
 }
 
 function createChanel() {
@@ -62,6 +63,7 @@ export const chatAPI = {
     },
     sendMessage(message: string) {
         ws?.send(message)
+        // createChanel()
     }
 }
 type messageReceivedType = (message: chatMessagesAPIType[]) => void

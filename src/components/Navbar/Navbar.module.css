@@ -1,11 +1,23 @@
 .nav {
     grid-area: n;
-    background-color: burlywood;
-    padding: 20px;
+    background-color: #232323;
+    margin-left: auto;
+    margin-right: 20px;
 }
 
 .item a {
     text-decoration: none;
-    color: white;
+    color: #828282;
+}
+.item {
+    margin: 20px;
+    display: flex;
+}
+.images {
+    width: 20px;
+    filter: invert(70%);
+    margin-right: 7px;
+position: relative;
+    top: 5px;
 }
 

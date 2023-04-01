@@ -1,12 +1,19 @@
 .header {
     grid-area: h;
-    background-color: green;
-}
-
-.header img {
-    width: 100px;
+    background-color: #484848;
 }
 .login {
     float: right;
     color: black;
+    margin-top: 15px;
+}
+.location {
+    width: 70%;
+    margin: 0 auto;
+}
+.images {
+    filter: invert(70%);
+    width: 40px;
+    padding-left: 120px;
+    padding-top: 4px;
 }

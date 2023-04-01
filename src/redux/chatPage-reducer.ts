@@ -43,14 +43,14 @@ export const actions = {
     changeStatus: (status: StatusType) =>
         ({type: STATUSCHANGED, payload: {status}} as const)
 }
-let _receiveMessages: ((messages: chatMessagesAPIType[]) => void) | null = null
+let _receivedMessages: ((messages: chatMessagesAPIType[]) => void) | null = null
 const receivedMessagesActionCreator = (dispatch: Dispatch) => {
-    if (_receiveMessages === null) {
-        _receiveMessages = (message) => {
+    if (_receivedMessages === null) {
+        _receivedMessages = (message) => {
             dispatch(actions.messagesReceived(message))
         }
     }
-    return _receiveMessages
+    return _receivedMessages
 }
 let _statusChanging: ((status: StatusType) => void) | null = null
 const statusChangingActionCreator = (dispatch: Dispatch) => {
@@ -72,7 +72,7 @@ export const stopMessagesListening = (): ThunkType => async (dispatch) => {
     chatAPI.unsubscribe('status-changed', statusChangingActionCreator(dispatch))
     chatAPI.stop()
 }
-export const sendMessage = (message: string): ThunkType => async (dispatch) => {
+export const sendMessageSuccess = (message: string): ThunkType => async (dispatch) => {
     chatAPI.sendMessage(message)
 }
 

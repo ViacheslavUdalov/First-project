@@ -25,7 +25,7 @@ export type BaseThunkType<ActionTypes extends Action,
 export type InferActionsTypes<T> = T extends {
     [key: string]: (...args: any[]) => infer U
 } ? U : never;
-export const useAppDispatch = () => useDispatch<TypedDispatch<AppStateType>>();
+export const useAppDispatch = () => useDispatch<TypedDispatch<AppStateType>>()
 
 export const useAppSelector: TypedUseSelectorHook<AppStateType> = useSelector;
 export default store;
