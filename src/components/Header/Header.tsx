@@ -21,8 +21,10 @@ function Header (props: PropsType) {
                 <img src={homeIcon} className={styles.images} alt =""/>
             </NavLink>
         <div className={styles.login}>
-            {isAuth ? <div>{login} - <button onClick = {Logout}>Logout</button>
-                    <LogoutOutlined /></div> :
+            {isAuth ? <div>{login} <button className={styles.logoutButton}
+                                             onClick = {Logout}> <LogoutOutlined
+                    className={styles.logoutIcon}/>Logout</button>
+                   </div> :
             <NavLink to='/login'>Login</NavLink>
             }
         </div>

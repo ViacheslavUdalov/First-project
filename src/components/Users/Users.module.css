@@ -9,6 +9,7 @@
     width: 65%;
     border-radius: 30px;
   padding-left: 40px;
+    margin: 30px 0 30px 100px;
 }
 .arrow {
     position: fixed;
@@ -38,9 +39,45 @@ margin: 5px auto auto 10px;
 .userStatus {
     margin: 20px auto auto 10px;
 }
+.form {
+    width: 90%;
+    padding: 10px;
+    margin-left: 20px;
+    border-radius: 30px;
+    border: 1px #0074D9 solid;
+    background-color: #afafaf;
+}
 .input {
     width: 60%;
     padding: 10px;
     border-radius: 30px;
     border: 1px #0074D9 solid;
+}
+.input:hover {
+ box-shadow: #414141 inset 0 0 15px 0;
+}
+.inputSearch {
+    margin: 20px 0 0 10px;
+}
+.submit {
+    padding: 10px;
+    border: 1px blue solid;
+    border-radius: 20px;
+    margin-left: 30px;
+}
+.submit:hover {
+    background-color: #0074D9;
+}
+.select {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px blue solid;
+    margin-left: 30px;
+}
+option {
+    padding: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 1px blue solid;
 }

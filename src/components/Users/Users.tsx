@@ -89,28 +89,9 @@ const Users: React.FC<Props> = (props) => {
             behavior: "smooth"
         })
     }
-     window.addEventListener('scroll', makeVisible);
-    // const [needScroll, setNeedScroll] = useState(false)
-    // const scrollToTop = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    //     const element = e.currentTarget
-    //     const HowMuchToScroll = element.scrollTop
-    //     if (HowMuchToScroll > 200) {
-    //         setNeedScroll(true)
-    //     }
-    //     else {
-    //         setNeedScroll(false)
-    //     }
-    // }
+     window.addEventListener('scroll', makeVisible)
     return <div>
-        <div className={styles.paginator}>
-            <Pagination
-                total={totalCount}
-                pageSize={pageSize}
-                defaultCurrent={currentPage}
-                onChange={onPageChanged}/>
-        </div>
-
-        <div>
+        <div className={styles.inputSearch}>
             <UsersForm onFilterChanged={onFilterChanged} filter={filter}/>
         </div>
         <div>
@@ -128,7 +109,13 @@ const Users: React.FC<Props> = (props) => {
             style={{visibility: visible ? "visible" : "hidden"}}
             />
         </div>
-
+        <div className={styles.paginator}>
+            <Pagination
+                total={totalCount}
+                pageSize={pageSize}
+                defaultCurrent={currentPage}
+                onChange={onPageChanged}/>
+        </div>
     </div>
 }
 export default Users;

@@ -2,7 +2,6 @@ import {useForm} from "react-hook-form";
 import {FilterType} from "../../redux/user-reducer";
 import React from "react";
 import styles from './Users.module.css'
-
 type PropsType = {
     onFilterChanged: (filter: FilterType) => void
     filter: FilterType
@@ -28,15 +27,15 @@ export default function UsersForm({onFilterChanged, filter}: PropsType) {
         onFilterChanged(filter2)
     }
     return (
-        <div>
+        <div className={styles.form}>
             <form onSubmit={handleSubmit(submit)}>
-                <input {...register("term")} className={styles.input}/>
-                <select {...register("friend")}>
-                    <option value="null">All</option>
-                    <option value="true">Friends</option>
-                    <option value="false">Not friends</option>
+                <input {...register("term")} placeholder={'Вы можете найти своих друзей'} className={styles.input}/>
+                <select  {...register("friend")} className={styles.select}>
+                    <option className={styles.selection} value="null">All</option>
+                    <option className={styles.selection} value="true">Friends</option>
+                    <option className={styles.selection} value="false">Not friends</option>
                 </select>
-                <input type="submit"/>
+               <input type={'submit'} className={styles.submit}/>
             </form>
         </div>
     );

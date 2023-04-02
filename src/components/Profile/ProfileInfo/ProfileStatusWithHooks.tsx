@@ -1,14 +1,17 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import {useAppDispatch} from "../../../redux/redux-store";
+import {updateStatus} from "../../../redux/profile-reducer";
+import styles from './ProfileInfo.module.css';
 interface Props {
-    updateStatus: (status: string) => void
     status: string
     isOwner: boolean
 }
 const ProfileStatusWithHooks = (props : Props) => {
     const [editMode, setEditMode] = useState(false);
-    const [status, setStatus] = useState(props.status);
+    const [status, setStatus] = useState(props.status)
+    const dispatch = useAppDispatch()
     useEffect(() => {
         setStatus(props.status)
     }, [props.status]);
@@ -20,7 +23,7 @@ const ProfileStatusWithHooks = (props : Props) => {
     }
     const deActivateEditMode = () => {
         setEditMode(false);
-        props.updateStatus(status)
+        dispatch(updateStatus(status))
     }
     const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
        setStatus(e.currentTarget.value)
@@ -28,7 +31,7 @@ const ProfileStatusWithHooks = (props : Props) => {
         return (
             <div>
                 {!editMode &&
-                    <div>
+                    <div className={styles.status}>
                         <span onClick={activateEditMode}>{props.status || 'My status is empty!'}</span>
                     </div>}
 
@@ -37,9 +40,9 @@ const ProfileStatusWithHooks = (props : Props) => {
                         <Box
                             component="form"
                             sx={{
-                                '& > :not(style)': { m: 1, width: '25ch',
+                                '& > :not(style)': { m: 1, width: '32ch',
                                     backgroundColor: 'white',
-                                borderRadius: '30px'},
+                                borderRadius: '30px 30px 5px 5px'},
                             }}
                             noValidate
                             autoComplete="off"

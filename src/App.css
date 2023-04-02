@@ -13,7 +13,7 @@
   background-color: #343434;
   width: 60%;
   margin-top: 20px;
-  border-radius: 50px;
+  border-radius: 20px;
 }
 @media (max-width: 1200px) {
   .app-wrapper {

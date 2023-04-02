@@ -9,3 +9,33 @@
     padding: 10px;
     display: flex;
 }
+.inputsInformation {
+    border-radius: 5px;
+}
+.box {
+    width: 90%;
+    background-color: #b4b4b4;
+    border-radius: 30px;
+    padding: 20px 0 20px 20px;
+    margin: 20px 0 0 0;
+}
+.button {
+    width: 95%;
+    background-color: #0074D9;
+    padding: 10px;
+    border-radius: 20px;
+    margin: 20px 0 0 0 ;
+}
+.ProfileData {
+    margin-left: 50px;
+}
+.status {
+    margin-left: 20px;
+    width: 250px;
+    padding: 10px;
+    background-color: #595959;
+    height: 120%;
+    border-radius: 30px;
+    border: 1px black solid;
+    text-align: center
+}

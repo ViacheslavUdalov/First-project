@@ -3,6 +3,7 @@
     background-color: #484848;
     position: fixed;
     width: 100%;
+    z-index: 5;
 }
 .location {
     width: 60%;
@@ -11,10 +12,19 @@
     justify-content: space-between;
 }
 .login {
-    color: black;
-    margin-top: auto;
+    color: white;
+    margin-top: 10px;
 }
 .images {
     filter: invert(70%);
     width: 40px;
+}
+.logoutButton {
+    padding: 5px 10px 5px 10px;
+    background-color: #c0c0c0;
+    border-radius: 20px;
+    box-shadow: white inset 0 0 15px 0;
+}
+.logoutIcon {
+    padding-right: 10px;
 }

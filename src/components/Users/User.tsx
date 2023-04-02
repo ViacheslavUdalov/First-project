@@ -16,7 +16,7 @@ const User = ({user, followingProcess, follow, unfollow}: UserPropsType) => {
                 <div>
                     <div>
                         <NavLink to={'/profile/' + user.id}>
-                            <img src={user.photos.small !== null ? user.photos.small : emptyIcon}
+                            <img src={user.photos.large !== null ? user.photos.large : emptyIcon}
                             className={styles.userImg}/>
                         </NavLink>
                     </div>
