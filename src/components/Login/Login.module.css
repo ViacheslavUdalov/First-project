@@ -1,0 +1,37 @@
+.loginBlock {
+    width: 100%;
+    height: 100%;
+    padding: 200px 0 200px 250px;
+}
+.inputs {
+    margin-top: 30px;
+    padding: 10px;
+    width: 30%;
+    background-color: #ffffff;
+    box-shadow: #989898 inset 0 0 20px 0;
+    border-radius: 20px;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+}
+.login {
+font-weight: bold;
+    font-size: larger;
+    margin-left: 13%;
+}
+.button {
+    width: 10%;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: #7c7c7c inset 0 0 20px 0;
+    margin: 10px 0 0 10%;
+}
+.checkbox {
+    padding: 20px 0 10px 7%;
+}
+.check:hover {
+    background-color: #000066;
+    scale: 100%;
+}

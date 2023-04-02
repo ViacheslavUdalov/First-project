@@ -28,3 +28,27 @@
 .logoutIcon {
     padding-right: 10px;
 }
+.loginRef {
+    text-decoration: none;
+    color: white;
+  /*margin-bottom: 20px;*/
+    display: flex;
+}
+.loginImg {
+    filter: invert(100%);
+    scale: 0.5;
+    position: relative;
+    top: -7px;
+
+}
+.navlink {
+    width: 100%;
+    height:30px;
+    background-color: #7f7f7f;
+    padding-right: 5px;
+    border-radius: 20px;
+}
+.span {
+    position: relative;
+    top: 4px
+}

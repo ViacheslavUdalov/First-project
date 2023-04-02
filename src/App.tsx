@@ -42,9 +42,6 @@ class App extends React.Component<mapStatePropsType & MapDispatchPropsType> {
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path={'/'} element={<Navigate to={'/profile'} />}/>
-                        <Route path='/dialogs' element={<Suspense fallback={<div>Loading...</div>}>
-                            <DialogsContainer />
-                        </Suspense>}/>
                         <Route path='/profile/:userId?' element={<Suspense fallback={<div>Loading...</div>}>
                             <ProfileContainer />
                         </Suspense>}/>

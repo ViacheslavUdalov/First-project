@@ -40,27 +40,3 @@ export default function UsersForm({onFilterChanged, filter}: PropsType) {
         </div>
     );
 }
-
-
-// <Input className={styles.input}
-//        value={filter}
-//        size="large" placeholder="Вы можете найти своих друзей"
-//        prefix={<UserOutlined />} />
-// <Box sx={{ minWidth: 120 }}>
-//     <FormControl fullWidth>
-//         <InputLabel id="friend">выбор</InputLabel>
-//         <Select
-//             labelId="friend"
-//             id="friend"
-//             value={filter.friend}
-//             label="friend"
-//         >
-//             <MenuItem value={"null"}>All</MenuItem>
-//             <MenuItem value={"true"}>Friends</MenuItem>
-//             <MenuItem value={"false"}>Not friends</MenuItem>
-//         </Select>
-//     </FormControl>
-// </Box>
-// <Space wrap>
-//     <Button onClick={submit}>Edit</Button>
-// </Space>

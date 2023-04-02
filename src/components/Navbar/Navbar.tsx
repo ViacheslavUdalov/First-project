@@ -13,11 +13,6 @@ const Navbar = () => {
                          color: isActive ? 'greenyellow' : 'white' })}>
                 <img src={ProfileIcon} className={s.images} />Profile</NavLink>
         </div>
-        <div className={s.item}>
-            <NavLink to='/dialogs' style={({ isActive }) => ({
-                color: isActive ? 'greenyellow' : 'white' })}>
-                <img src={messageIcon} className={s.images}/>Messages</NavLink>
-        </div>
             <div className={s.item}>
             <NavLink to='/users' style={({ isActive }) => ({
                 color: isActive ? 'greenyellow' : 'white' })}>

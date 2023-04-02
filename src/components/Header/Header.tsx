@@ -7,6 +7,8 @@ import {NavLink} from "react-router-dom";
 import {AnyAction} from "redux";
 import homeIcon from '../../common/images/home_FILL0_wght500_GRAD0_opsz48.png'
 import {LogoutOutlined} from "@ant-design/icons";
+import loginIcon from '../../common/images/login_FILL0_wght500_GRAD0_opsz48.png'
+
 type PropsType = {}
 function Header (props: PropsType) {
     const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
@@ -25,7 +27,10 @@ function Header (props: PropsType) {
                                              onClick = {Logout}> <LogoutOutlined
                     className={styles.logoutIcon}/>Logout</button>
                    </div> :
-            <NavLink to='/login'>Login</NavLink>
+                <div className={styles.navlink}>
+            <NavLink className={styles.loginRef} to='/login'>
+                <img className={styles.loginImg} src={loginIcon}/><span className={styles.span}>Login</span></NavLink>
+                </div>
             }
         </div>
         </div>

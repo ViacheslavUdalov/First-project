@@ -4,6 +4,11 @@ import {sendMessageSuccess, startMessagesListening, stopMessagesListening} from 
 import {useSelector} from "react-redux";
 import {chatMessagesAPIType} from "../../api/chatPage-api";
 import anonimUser from '../../common/images/anonymous-user.webp'
+import styles from './ChatPage.module.css'
+import { UserOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
+import {compose} from "redux";
+import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 function ChatPage() {
     return < div>
         <Chat/>
@@ -23,7 +28,9 @@ function Chat() {
     })
     return <div>
         {status === 'error' && <div>Some error is there.</div>}
+        <div className={styles.allMessages}>
         <Messages/>
+        </div>
         <ChatForm/>
     </div>
 }
@@ -52,7 +59,9 @@ if (isAuthScroll) {
     messagesRef.current?.scrollIntoView()
 }
 }, [messages])
-    return <div style={{height: '400px', overflowY:'auto', width: '520px', overflowX: 'auto'}} onScroll={onScrollChanged}>
+    return <div className={styles.messages}
+                style={{height: '700px', overflowY:'auto', width: '700px', overflowX: 'hidden'}}
+                onScroll={onScrollChanged}>
         {messages.map((m) =>
             <Message message={m} key={m.id}/>)}
         <div ref={messagesRef}>
@@ -65,12 +74,16 @@ type MessageType = {
 }
 
 function Message({message}: MessageType) {
-    return <div style={{width: '500px'}}>
-        <img src={message.photo || anonimUser} alt={message.userName} style={{height: '30px', width: '30px'}}/>
+    return <div className={styles.flex} >
+        <img src={message.photo || anonimUser} alt={message.userName}
+           className={styles.uniqImg}/>
+        <div className={styles.name}>
         <b>{message.userName} - userId = {message.userId}</b>
-        <br />
+        <br   />
+            <div className={styles.message}>
         {message.message}
-        <hr />
+            </div>
+        </div>
     </div>
 }
 
@@ -78,7 +91,7 @@ function ChatForm() {
     const [message, setMessage] = useState('')
     const status = useSelector((state: AppStateType) => state.chatPage.status)
     const dispatch = useAppDispatch()
-const TextAreaValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
+const TextAreaValue = (event: ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value)
 }
 const sendMessageInChat = () => {
@@ -94,9 +107,19 @@ const sendMessageInChat = () => {
     dispatch(sendMessageSuccess(messageWithTime))
     setMessage('')
 }
-return <div>
-    <textarea onChange={TextAreaValue} value={message}/>
-    <button disabled={status !== 'ready'} onClick={sendMessageInChat}>Send</button>
+const onKeySend = (event: any) => {
+       if (event.code === 'Enter')  {
+sendMessageInChat()
+       }
+}
+return <div className={styles.sendMessage}>
+    <Input size="large" placeholder='Вы можете написать сообщение...' prefix={<UserOutlined />}
+           value={message}
+           className={styles.textArea}
+           onChange={TextAreaValue}
+    onKeyPress={onKeySend}/>
+    <button disabled={status !== 'ready'} onClick={sendMessageInChat} className={styles.sendIcon}>Отправить
+    </button>
 </div>
 }
-export default ChatPage
+export default compose<React.ComponentType>(WithAuthRedirect)(ChatPage)
