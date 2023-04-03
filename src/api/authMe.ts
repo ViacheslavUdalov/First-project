@@ -19,6 +19,6 @@ export const authAPI = {
             {email, password, rememberMe, captcha}).then((res) => res.data)
     },
     logout() {
-        return instance.delete('auth/login')
+        return instance.delete<APIResponse>('auth/login').then(res => res.data)
     }
 }

@@ -28,7 +28,7 @@ function LoginForm(props: Props) {
             {captchaURL &&
                 <img src={captchaURL}/>
             }
-            {captchaURL && <input {...register("captcha",
+            {captchaURL && <input {...register("ogcaptcha",
                 {required: false, maxLength: 20})} />}
             <input type={'submit'} className={styles.button}/>
         </form>

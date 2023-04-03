@@ -6,13 +6,9 @@ import {File} from "buffer";
 type ProfilePropsType = {
     profile: ProfileType | null
     isOwner: boolean
-    savePhoto: (file : File) => void
-    updateStatus: (status: string) => void
-    saveProfile: (profile: ProfileType) => Promise<any>
     status: string
 }
-const Profile = ({profile, isOwner, savePhoto,
-                     updateStatus, saveProfile, status}: ProfilePropsType) => {
+const Profile = ({profile, isOwner, status}: ProfilePropsType) => {
    
     return (
         <div>

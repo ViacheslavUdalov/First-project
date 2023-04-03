@@ -5,15 +5,15 @@ import {authAPI} from "../api/authMe";
 
 const SETUSERDATE = 'SETUSERDATE';
 const GET_CAPTCHA = 'GET_CAPTCHA';
-let initial = {
+let initialState = {
     userId: null as number | null,
     email: null as string | null,
     login: null as string | null,
     isAuth: false,
     captchaURL: null as string | null
 }
-type initialType = typeof initial;
-const AuthReducer = (state = initial, action: ActionsType): initialType => {
+type initialType = typeof initialState;
+const AuthReducer = (state = initialState, action: ActionsType): initialType => {
     switch (action.type) {
         case SETUSERDATE:
         case GET_CAPTCHA:
@@ -59,8 +59,8 @@ export const getCaptcha = (): ThunkType => async (dispatch) => {
     dispatch(actions.setCaptcha(captchaURL))
 }
 export const logout = (): ThunkType => async (dispatch) => {
-    const response = await authAPI.logout()
-    if (response.data.resultCode === ResultCodesEnum.Success) {
+    const data = await authAPI.logout()
+    if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(actions.setUserData(null, null, null, false));
     }
 }
