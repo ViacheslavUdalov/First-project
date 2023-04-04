@@ -91,6 +91,9 @@ const Users: React.FC<Props> = (props) => {
     }
      window.addEventListener('scroll', makeVisible)
     return <div>
+        <span className={styles.totalCount}>
+           Всего пользователей: {totalCount}
+        </span>
         <div className={styles.inputSearch}>
             <UsersForm onFilterChanged={onFilterChanged} filter={filter}/>
         </div>

@@ -1,15 +1,12 @@
-import React from "react";
+import React, {useRef} from "react";
 import {useForm} from "react-hook-form";
 import {ProfileType} from "../../../types/Types";
-import {Input} from "../../../common/FormControls";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import styles from './ProfileInfo.module.css'
-import {Button, Space} from "antd";
-import {Simulate} from "react-dom/test-utils";
-import submit = Simulate.submit;
 import {savePhoto} from "../../../redux/profile-reducer";
 import {useAppDispatch} from "../../../redux/redux-store";
+import uploadPhoto from '../../../common/images/upload_file_FILL0_wght500_GRAD0_opsz48.png'
 type ProfileDataFormProps = {
     profile: ProfileType
     onSubmit: (formData: any) => void
@@ -33,12 +30,20 @@ const ProfileDataForm: React.FC<ProfileDataFormProps>
         }
     }
      // console.log(profile.contacts)
-    return <form onSubmit={handleSubmit(onSubmit)}>
-<div>
-    {isOwner &&
-        <input type={'file'} onChange={savePhotoFile}/>//
-    }
-</div>
+    return <div>
+        <div>
+            {isOwner &&
+                <div>
+                    <label className={styles.label} htmlFor={'uploader'}>
+                        <img className={styles.imgLabel} src={uploadPhoto}/>
+                    Загрузить фото</label>
+                    <input id={'uploader'} type={'file'}
+                           onChange={savePhotoFile}
+                           className={styles.ButtonInput}/>
+                </div>
+            }
+        </div><form onSubmit={handleSubmit(onSubmit)}>
+
         <div className={styles.box}>
         <Box
             component="form"
@@ -62,20 +67,6 @@ const ProfileDataForm: React.FC<ProfileDataFormProps>
             />
         </Box>
         </div>
-        {/*<div>*/}
-        {/*    about Me:  <input  {...register("aboutMe", { required: true }) } />*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*    Full Name: <input {...register("fullName", { required: true }) } />*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*    looking For A Job:*/}
-        {/*    <input type={'checkbox'} {...register("lookingForAJob", { required: true }) } />*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*    looking For A Job Description:*/}
-        {/*    <textarea {...register("lookingForAJobDescription", { required: false }) } />*/}
-        {/*</div>*/}
         <div className={styles.box}>
             {Object.entries(profile.contacts).map((contact) => {
                 const key = contact[0]
@@ -89,9 +80,9 @@ const ProfileDataForm: React.FC<ProfileDataFormProps>
                 </div>
             })}
         </div>
-        {/*<input type='submit'/>*/}
         <button className={styles.button} type={'submit'}>Save</button>
 
     </form>
+    </div>
 }
 export default ProfileDataForm;

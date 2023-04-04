@@ -8,7 +8,7 @@ ____
 ### Проект реализован с помощью трёх слоёв:
 + User Interface Design
 + Business Logic Layer
-+ Application Programming Interface 
++ Data Access Layer
 
 *Каждый из слоёв обладает своей собственной ответсвенностью.*
 ____
@@ -131,7 +131,8 @@ export const login = (email: string, password: string,
                       rememberMe: boolean, captcha: string | null): ThunkType => async (dispatch) => {
 
     let data = await authAPI.login(email, password, rememberMe, captcha)
-    if (data.resultCode === ResultCodesEnum.Success) {
+    if (data.resultCode === R
+        esultCodesEnum.Success) {
         dispatch(setUserProfile())
     } else {
         if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {

@@ -9,6 +9,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import {AnyAction, compose} from "redux";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import ChatPageTopPage from "./ChatPageTopPage";
 function ChatPage() {
     return < div>
         <Chat/>
@@ -29,7 +30,10 @@ function Chat() {
     return <div>
         {status === 'error' && <div>Some error is there.</div>}
         <div className={styles.allMessages}>
+            <ChatPageTopPage />
+            <div className={styles.messagesBorder}>
         <Messages/>
+            </div>
         </div>
         <ChatForm/>
     </div>
@@ -60,7 +64,7 @@ if (isAuthScroll) {
 }
 }, [messages])
     return <div className={styles.messages}
-                style={{height: '700px', overflowY:'auto', width: '700px', overflowX: 'hidden'}}
+                style={{height: '700px', overflowY:'auto', width: '100%', overflowX: 'hidden'}}
                 onScroll={onScrollChanged}>
         {messages.map((m) =>
             <Message message={m} key={m.id}/>)}
