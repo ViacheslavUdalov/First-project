@@ -13,12 +13,6 @@ export default function UsersForm({onFilterChanged, filter}: PropsType) {
             defaultValues: filter
         }
     )
-    // useEffect(() => {
-    //     reset({
-    //         term: filter.term,
-    //         friend: filter.friend
-    //     }, [filter])
-    // })
     const submit = (values: FilterType) => {
         const filter2 = {
             term: values.term,

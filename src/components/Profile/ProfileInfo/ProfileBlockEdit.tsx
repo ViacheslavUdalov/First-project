@@ -42,7 +42,7 @@ const ProfileDataForm: React.FC<ProfileDataFormProps>
                            className={styles.ButtonInput}/>
                 </div>
             }
-        </div><form onSubmit={handleSubmit(onSubmit)}>
+        </div><form onSubmit={handleSubmit(onSubmit)}>A
 
         <div className={styles.box}>
         <Box

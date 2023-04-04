@@ -1,3 +1,5 @@
+import {ReactNode} from "react";
+
 export type Posts = {
     id: number,
     message: string,
@@ -32,6 +34,5 @@ export type UserType = {
     name: string,
     status: string,
     photos: PhotosType,
-    followed: boolean
-    // followed: boolean
+    followed: boolean,
 }

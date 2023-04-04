@@ -19,7 +19,7 @@ export let initialState = {
     users: [] as Array<UserType>,
     pageSize: 30,
     totalCount: 0,
-    currentPage: 1,
+    currentPage: 1 as number | null | undefined,
     isFetching: false,
     followingProcess: [] as Array<number>,
     filter: {
@@ -76,7 +76,7 @@ const UsersPage = (state = initialState, action: ActionsType): initialStateType 
 export const actions = {
     setUsers: (users: Array<UserType>) => ({type: SETUSERS, users} as const),
     setTotal: (totalCount: number) => ({type: SETTOTAL, count: totalCount} as const),
-    setCurrentPage: (currentPage: number) => ({type: CURRENTPAGE, currentPage} as const),
+    setCurrentPage: (currentPage: number | null) => ({type: CURRENTPAGE, currentPage} as const),
     followSuccess: (userId: number) => ({type: FOLLOW, userId} as const),
     unfollowSuccess: (userId: number) => ({type: UNFOLLOW, userId} as const),
     isLoading: (isFetching: boolean) => ({type: ISFETCHING, isFetching} as const),
@@ -86,7 +86,7 @@ export const actions = {
         ({type: SET_FILTER, payload: filter} as const)
 }
 
-export const getUsers = (currentPage: number, pageSize: number,
+export const getUsers = (currentPage: number | null, pageSize: number| null,
                          filter: FilterType): ThunkType => async (dispatch, getState) => {
     dispatch(actions.isLoading(true));
     dispatch(actions.setCurrentPage(currentPage));
