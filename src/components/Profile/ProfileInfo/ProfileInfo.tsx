@@ -115,6 +115,7 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                         </div>
                 )
                 }
+                {isOwner &&
                 <div className={styles.paginator}>
                     <Pagination
                         total={totalFriends}
@@ -122,6 +123,7 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                         defaultCurrent={currentPage}
                         onChange={onPageChanged}/>
                 </div>
+                }
             </div>
         </div>
     )
