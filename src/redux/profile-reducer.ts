@@ -1,6 +1,8 @@
 import {PhotosType, Posts, ProfileType} from "../types/Types";
 import {BaseThunkType, InferActionsTypes} from "./redux-store";
 import {ProfileAPI} from "../api/ProfileAPI";
+import {getMyFriends, getUsers} from "./user-reducer";
+import {userAPI} from "../api/UsersAPI";
 
 const ADD_POST = 'ADD_POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
@@ -61,7 +63,9 @@ export const actions = {
 
 export const getProfile = (userId: number): ThunkType => async (dispatch) => {
    let data = await ProfileAPI.profileRequest(userId)
-            dispatch(actions.setProfile(data));
+
+            dispatch(actions.setProfile(data))
+
 
 }
 export const savePhoto = (file: File): ThunkType => async (dispatch) => {
@@ -70,6 +74,7 @@ export const savePhoto = (file: File): ThunkType => async (dispatch) => {
          dispatch(actions.savePhotoSuccess(data.data.photos));
     }
 }
+
 export const getStatus = (userId: number): ThunkType => async (dispatch) => {
     let data = await ProfileAPI.getStatus(userId)
             dispatch(actions.setStatus(data));

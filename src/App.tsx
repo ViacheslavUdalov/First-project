@@ -2,7 +2,7 @@ import React, {Suspense} from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import {BrowserRouter, Navigate, Route, Routes, useParams} from "react-router-dom";
-import UsersContainer from "./components/Users/UsersContainer";
+// import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {connect, Provider} from "react-redux";
@@ -11,6 +11,7 @@ import Preloader from "./common/preloader";
 import {initializeApp} from "./redux/app-reducer";
 import store, {AppStateType} from "./redux/redux-store";
 import ChatPage from "./components/ChatPage/ChatPage";
+// import ProfileContainer from "./components/Profile/ProfileContainer";
 export function withRouter(Children: any) {
     return (props: any) => {
 
@@ -18,8 +19,9 @@ export function withRouter(Children: any) {
         return <Children {...props} match={match}/>
     }
 }
-const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
-const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
+// const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
+ const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
+const UsersContainer = React.lazy(() => import("./components/Users/UsersContainer"));
 type MapDispatchPropsType = {
     initializeApp: () => void
 
@@ -42,10 +44,14 @@ class App extends React.Component<mapStatePropsType & MapDispatchPropsType> {
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path={'/'} element={<Navigate to={'/profile'} />}/>
-                        <Route path='/profile/:userId?' element={<Suspense fallback={<div>Loading...</div>}>
+                        <Route path='/profile/:userId?' element={ <Suspense fallback={<div>Загрузка...</div>}>
                             <ProfileContainer />
                         </Suspense>}/>
-                        <Route path='/users' element={<UsersContainer/>}/>
+                        <Route path='/users' element={<Suspense fallback={<div>Загрузка...</div>}>
+                            <UsersContainer/>
+                        </Suspense>
+                        }
+                        />
                         <Route path='/chat' element={<ChatPage/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Routes>

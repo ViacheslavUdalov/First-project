@@ -20,5 +20,37 @@
     color: white;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: #595959;
+    border: 1px white solid;
+    border-radius: 20px;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+}
+.OneFriendList {
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+    justify-content: space-between;
+}
+.buttons {
+    /*position: relative;*/
+    /*left: auto;*/
+}
+.name {
+    color: white;
+    margin-left: 20px;
+    position: relative;
+    bottom: 15px;
+}
+.navLink {
+    text-decoration: none;
+}
+.YourFriend {
+margin-right: 20px;
+    opacity: 0.6;
+}
+.status {
+    position: relative;
+    top: 10px;
+    left: -47px;
 }

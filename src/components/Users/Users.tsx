@@ -28,11 +28,13 @@ const Users: React.FC<Props> = (props) => {
     const filter = useAppSelector(getFilter)
     const dispatch = useAppDispatch()
     const [searchParams, setSearchParams] = useSearchParams()
+    const [visible, setVisible] = useState(false)
     useEffect(() => {
         let result: any = {}
         // @ts-ignore
         for (const [key, value] of searchParams.entries()) {
             let value2: any = +value
+            // console.log(typeof value2)
             if (isNaN(value2)) {
                 value2 = value
             }
@@ -74,7 +76,7 @@ const Users: React.FC<Props> = (props) => {
     const unfollow = (userId: number) => {
         dispatch(unfollowThunk(userId))
     }
-    const [visible, setVisible] = useState(false)
+
     const makeVisible = () => {
         const scrolled = document.documentElement.scrollTop;
         if (scrolled > 200) {
@@ -89,7 +91,10 @@ const Users: React.FC<Props> = (props) => {
             behavior: "smooth"
         })
     }
-     window.addEventListener('scroll', makeVisible)
+    useEffect(() => { window.addEventListener('scroll', makeVisible)
+    }, [])
+
+    console.log(totalCount)
     return <div>
         <span className={styles.totalCount}>
            Всего пользователей: {totalCount}
@@ -116,9 +121,9 @@ const Users: React.FC<Props> = (props) => {
             <Pagination
                 total={totalCount}
                 pageSize={pageSize}
-                defaultCurrent={currentPage}
+                defaultCurrent={1}
                 onChange={onPageChanged}/>
         </div>
     </div>
 }
-export default Users;
+export default React.memo(Users)

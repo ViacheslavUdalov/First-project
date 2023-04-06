@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React from "react";
 import {useForm} from "react-hook-form";
 import {ProfileType} from "../../../types/Types";
 import Box from '@mui/material/Box';
@@ -7,6 +7,8 @@ import styles from './ProfileInfo.module.css'
 import {savePhoto} from "../../../redux/profile-reducer";
 import {useAppDispatch} from "../../../redux/redux-store";
 import uploadPhoto from '../../../common/images/upload_file_FILL0_wght500_GRAD0_opsz48.png'
+import {Checkbox} from "antd";
+
 type ProfileDataFormProps = {
     profile: ProfileType
     onSubmit: (formData: any) => void
@@ -29,7 +31,6 @@ const ProfileDataForm: React.FC<ProfileDataFormProps>
             dispatch(savePhoto(e.target.files[0]))
         }
     }
-     // console.log(profile.contacts)
     return <div>
         <div>
             {isOwner &&
@@ -42,7 +43,7 @@ const ProfileDataForm: React.FC<ProfileDataFormProps>
                            className={styles.ButtonInput}/>
                 </div>
             }
-        </div><form onSubmit={handleSubmit(onSubmit)}>A
+        </div><form onSubmit={handleSubmit(onSubmit)}>
 
         <div className={styles.box}>
         <Box
@@ -59,9 +60,7 @@ const ProfileDataForm: React.FC<ProfileDataFormProps>
             <TextField id="outlined-basic" label="fullName" variant="outlined"
                        {...register("fullName", { required: true }) }
             />
-            <TextField id="outlined-basic" label="lookingForAJob" variant="outlined"
-                       {...register("lookingForAJob", { required: false }) }
-            />
+            <Checkbox {...register("lookingForAJob", { required: false }) }>Я в поиске работы!</Checkbox>
             <TextField id="outlined-basic" label="lookingForAJobDescription" variant="outlined"
                        {...register("lookingForAJobDescription", { required: false }) }
             />

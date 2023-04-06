@@ -13,13 +13,16 @@ const FOLLOW = 'FOLLOW';
 const ISFETCHING = 'ISFETCHING';
 const FOLLOWINGDISABLE = 'FOLLOWINGDISABLE';
 const SET_FILTER = 'SET_FILTER';
-
+const SET_FRIENDS = 'SET_FRIENDS';
+const SET_TOTALFRIEND = 'SET_TOTALFRIEND';
 
 export let initialState = {
     users: [] as Array<UserType>,
+    friends: [] as Array<UserType>,
     pageSize: 30,
     totalCount: 0,
-    currentPage: 1 as number | null | undefined,
+    totalFriends: 0,
+    currentPage: 1,
     isFetching: false,
     followingProcess: [] as Array<number>,
     filter: {
@@ -34,8 +37,21 @@ const UsersPage = (state = initialState, action: ActionsType): initialStateType 
         case SETUSERS: {
             return {...state, users: action.users}
         }
+        case SET_FRIENDS: {
+            return {...state,
+                friends: state.users.map((u: UserType) => {if (u.followed) {
+                    return {...u}
+                }
+                return u
+                }
+                )
+            }
+        }
         case SETTOTAL: {
             return {...state, totalCount: action.count}
+        }
+        case SET_TOTALFRIEND: {
+            return {...state, totalFriends: action.count}
         }
         case CURRENTPAGE: {
             return {...state, currentPage: action.currentPage}
@@ -52,7 +68,7 @@ const UsersPage = (state = initialState, action: ActionsType): initialStateType 
                 ...state,
                 followingProcess: action.isFetching
                     ? [...state.followingProcess, action.userId]
-                    : state.followingProcess.filter(id => id !== action.userId)
+                    : state.followingProcess.filter((id: number) => id !== action.userId)
             }
         }
         case FOLLOW: {
@@ -76,25 +92,33 @@ const UsersPage = (state = initialState, action: ActionsType): initialStateType 
 export const actions = {
     setUsers: (users: Array<UserType>) => ({type: SETUSERS, users} as const),
     setTotal: (totalCount: number) => ({type: SETTOTAL, count: totalCount} as const),
-    setCurrentPage: (currentPage: number | null) => ({type: CURRENTPAGE, currentPage} as const),
+    setTotalFriend: (totalFriends: number) => ({type: SET_TOTALFRIEND, count: totalFriends} as const),
+    setCurrentPage: (currentPage: number) => ({type: CURRENTPAGE, currentPage} as const),
     followSuccess: (userId: number) => ({type: FOLLOW, userId} as const),
     unfollowSuccess: (userId: number) => ({type: UNFOLLOW, userId} as const),
     isLoading: (isFetching: boolean) => ({type: ISFETCHING, isFetching} as const),
     followingProgress: (isFetching: boolean, userId: number) =>
         ({type: FOLLOWINGDISABLE, isFetching, userId} as const),
     setFilter: (filter: FilterType) =>
-        ({type: SET_FILTER, payload: filter} as const)
+        ({type: SET_FILTER, payload: filter} as const),
+    setFriends: (friends: Array<UserType>) =>
+        ({type: SET_FRIENDS, friends} as const)
 }
 
-export const getUsers = (currentPage: number | null, pageSize: number| null,
+export const getUsers = (currentPage: number, pageSize: number| null,
                          filter: FilterType): ThunkType => async (dispatch, getState) => {
-    dispatch(actions.isLoading(true));
-    dispatch(actions.setCurrentPage(currentPage));
+    dispatch(actions.isLoading(true))
+    dispatch(actions.setCurrentPage(currentPage))
     dispatch(actions.setFilter(filter))
-    let data = await userAPI.getUsers(currentPage, pageSize, filter.term, filter.friend)
-    dispatch(actions.isLoading(false));
-    dispatch(actions.setUsers(data.items));
+    let data = await userAPI.getUsersAPI(currentPage, pageSize, filter.term, filter.friend)
+    dispatch(actions.isLoading(false))
+    dispatch(actions.setUsers(data.items))
     dispatch(actions.setTotal(data.totalCount))
+}
+export const getMyFriends = (currentPage: number, pageSize: number| null, friend: boolean): ThunkType => async (dispatch) => {
+    let data = await userAPI.getUsersAPI(currentPage, pageSize, '', friend)
+    dispatch(actions.setUsers(data.items))
+    dispatch(actions.setTotalFriend(data.totalCount))
 }
 export const unfollow = (userId: number): ThunkType => async (dispatch) => {
     followUnfollow(dispatch, userAPI.unfollow.bind(userAPI), actions.unfollowSuccess, userId)
@@ -118,4 +142,4 @@ export type FilterType = typeof initialState.filter
 type ThunkType = BaseThunkType<ActionsType>
 type DispatchType = Dispatch<ActionsType>
 type ActionsType = InferActionsTypes<typeof actions>
-export default UsersPage;
+export default UsersPage

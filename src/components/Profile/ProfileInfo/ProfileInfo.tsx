@@ -6,13 +6,14 @@ import ProfileData from "../ProfileBlock";
 import cn from 'classnames';
 import ProfileDataForm from "./ProfileBlockEdit";
 import {ProfileType, UserType} from "../../../types/Types";
-import {AppStateType, useAppDispatch, useAppSelector} from "../../../redux/redux-store";
+import {useAppDispatch, useAppSelector} from "../../../redux/redux-store";
 import {saveProfile} from "../../../redux/profile-reducer";
 import emptyIcon from '../../../common/images/anonymous-user.webp'
 import styles from "../Profile.module.css";
-import {actions, getUsers} from "../../../redux/user-reducer";
-import User from "../../Users/User";
-import {getUsersState} from "../../Users/users-selector";
+import {follow, getMyFriends, unfollow} from "../../../redux/user-reducer";
+import {getCurrentPage, getFriends, getTotalFriend} from "../../Users/users-selector";
+import {NavLink} from "react-router-dom";
+import {Button, Pagination, PaginationProps, Space} from "antd";
 
 type PropsType = {
     profile: ProfileType | null
@@ -23,29 +24,30 @@ type PropsType = {
 
 const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
     let [editMode, setEditMode] = useState(false)
-    const users = useAppSelector(getUsersState)
+    const friends = useAppSelector(getFriends)
+    const totalFriends = useAppSelector(getTotalFriend)
+    const currentPage = useAppSelector(getCurrentPage)
+    const pageSize = 10
     const dispatch = useAppDispatch()
     useEffect(() => {
-        dispatch(getUsers(null, null, {term: '', friend: true}))
+        dispatch(getMyFriends(currentPage, pageSize, true))
     }, [])
+    const onPageChanged: PaginationProps['onChange'] = (pageNumber: number) => {
+        dispatch(getMyFriends(pageNumber, pageSize, true))
+    }
     if (!profile) {
         return <Preloader/>
     }
-
     const onSubmit = (formData: any) => {
         dispatch(saveProfile(formData))
         setEditMode(false)
     }
-    // const result: UserType[] = []
-    //     users.map((u: UserType) => {
-    //             if (u.followed === true) {
-    //                 result.push(u)
-    //                 return result
-    //             }
-    //             return
-    //         }
-    //     )
-    //  console.log(result)
+    const Unfollow = (userId: number) => {
+        dispatch(unfollow(userId))
+    }
+    const Follow = (userId: number) => {
+        dispatch(follow(userId))
+    }
     return (
         <div>
             <div>
@@ -64,22 +66,65 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                                            profile={profile}
                                            isOwner={isOwner}/>}
                 </div>
+                {!friends && <Preloader/>}
             </div>
             <div className={styles.Friends}>
 
-                {users.map((followedUser: UserType) =>
-                    <>
-                    <div>
-
-                    <img src={followedUser.photos.large ? followedUser.photos.large :emptyIcon}
-                         style={{width: '30px'}}/>
+                {isOwner && friends.map((followedUser: UserType) =>
+                        <div key={followedUser.id}>
+                            <>
+                                {!friends ? <Preloader/> :
+                                    <div className={styles.OneFriendList}>
+                                        <div>
+                                            <NavLink to={'/profile/' + followedUser.id} className={styles.navLink}>
+                                                <img src={followedUser.photos.large ? followedUser.photos.large : emptyIcon}
+                                                     style={{width: '30px', borderRadius: '50%'}}/>
+                                                <span className={styles.name}>
                 {followedUser.name}
-                    </div>
-                    </>
+                                </span>
+                                            </NavLink>
+                                            <span className={styles.status}>
+                            {followedUser.status}
+                                        </span>
+                                        </div>
+                                        <div className={styles.buttons}>
+                                     <span className={styles.YourFriend}>
+                            {followedUser.followed ? <span>Ваш друг</span> :
+                                <span>Больше не ваш друг</span>}
+</span>
+                                            {followedUser.followed ?
+                                                <Space>
+                                                    <Button type="primary" danger
+                                                            onClick={() => {
+                                                                Unfollow(followedUser.id)
+                                                            }}>Удалить из друзей</Button>
+                                                </Space> :
+                                                <Space>
+                                                    <Button type="primary"
+                                                            onClick={() => {
+                                                                Follow(followedUser.id)
+                                                            }}>Добавить в друзья</Button>
+                                                </Space>
+                                            }
+                                        </div>
+
+                                    </div>
+                                }
+                                <hr/>
+                            </>
+                        </div>
                 )
                 }
+                <div className={styles.paginator}>
+                    <Pagination
+                        total={totalFriends}
+                        pageSize={pageSize}
+                        defaultCurrent={currentPage}
+                        onChange={onPageChanged}/>
+                </div>
             </div>
         </div>
     )
+
 }
-export default ProfileInfo;
+export default ProfileInfo

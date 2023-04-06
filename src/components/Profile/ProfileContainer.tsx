@@ -11,6 +11,7 @@ import {compose} from "redux";
 import {AppStateType} from "../../redux/redux-store";
 import {ProfileType} from "../../types/Types";
 import {File} from "buffer";
+import {getMyFriends} from "../../redux/user-reducer";
 
 export function withRouter(Children: any) {
     return (props: any) => {
@@ -46,7 +47,9 @@ class ProfileContainer extends React.Component<PropsType> {
             }
         }
         this.props.getProfile(userId);
+
         this.props.getStatus(userId);
+        // this.props.getMyFriends(true);
     }
     componentDidMount() {
         this.refreshProfile()
@@ -72,6 +75,6 @@ let mapStateToProps = (state: AppStateType) => ({
     isAuth: state.auth.isAuth
 });
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getProfile, getStatus, updateStatus,
+    connect(mapStateToProps, {getProfile, getStatus, getMyFriends, updateStatus,
         savePhoto, saveProfile}),
     withRouter, WithAuthRedirect)(ProfileContainer)
