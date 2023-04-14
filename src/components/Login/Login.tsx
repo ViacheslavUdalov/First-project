@@ -46,4 +46,4 @@ const Login: React.FC = (props) => {
         </div>
     )
 }
-export default Login
+export default React.memo(Login);

@@ -8,7 +8,7 @@ const ADD_POST = 'ADD_POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const SAVE_PHOTO = 'SAVE_PHOTO';
-type initialStateType = typeof initialState;
+export type initialStateType = typeof initialState;
 
 let initialState = {
     posts: [
@@ -38,7 +38,7 @@ const ProfileReducer = (state = initialState, action: ActionsType): initialState
         }
         case SET_STATUS: {
             return {
-             ...state, status: action.status
+                ...state, status: action.status
             }
         }
         case SAVE_PHOTO: {
@@ -62,41 +62,38 @@ export const actions = {
 }
 
 export const getProfile = (userId: number): ThunkType => async (dispatch) => {
-   let data = await ProfileAPI.profileRequest(userId)
-
-            dispatch(actions.setProfile(data))
-
-
+    let data = await ProfileAPI.profileRequest(userId)
+    dispatch(actions.setProfile(data))
 }
 export const savePhoto = (file: File): ThunkType => async (dispatch) => {
-   let data = await ProfileAPI.savePhotoReady(file);
+    let data = await ProfileAPI.savePhotoReady(file);
     if (data.resultCode === 0) {
-         dispatch(actions.savePhotoSuccess(data.data.photos));
+        dispatch(actions.savePhotoSuccess(data.data.photos));
     }
 }
 
 export const getStatus = (userId: number): ThunkType => async (dispatch) => {
     let data = await ProfileAPI.getStatus(userId)
-            dispatch(actions.setStatus(data));
+    dispatch(actions.setStatus(data));
 }
 export const updateStatus = (status: string): ThunkType => async (dispatch) => {
-   let data = await ProfileAPI.updateStatus(status)
-            if (data.resultCode === 0) {
-                dispatch(actions.setStatus(status));
-            }
+    let data = await ProfileAPI.updateStatus(status)
+    if (data.resultCode === 0) {
+        dispatch(actions.setStatus(status));
+    }
 }
 export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch, getState) => {
     let userId = getState().auth.userId;
-   let data = await ProfileAPI.updateProfile(profile);
-            if (data.resultCode === 0) {
-                if (userId !== null) {
-                    dispatch(getProfile(userId));
-                } else {
-                    throw new Error(`userId can't be null`)
-                }
-            } else {
-                return Promise.reject(data.messages[0]);
-            }
+    let data = await ProfileAPI.updateProfile(profile);
+    if (data.resultCode === 0) {
+        if (userId !== null) {
+            dispatch(getProfile(userId));
+        } else {
+            throw new Error(`userId can't be null`)
+        }
+    } else {
+        return Promise.reject(data.messages[0]);
+    }
 }
 type ActionsType = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionsType>

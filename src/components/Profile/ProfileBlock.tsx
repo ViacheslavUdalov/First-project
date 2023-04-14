@@ -47,4 +47,4 @@ type ContactsProfile = {
 const ContactsProfile: React.FC<ContactsProfile> = ({contactTitle, contactValue}) => {
     return <div className={styles.contacts}>{contactTitle}: {contactValue}</div>
 }
-export default ProfileData;
+export default React.memo(ProfileData);

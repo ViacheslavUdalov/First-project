@@ -19,4 +19,4 @@ const Profile = ({profile, isOwner, status}: ProfilePropsType) => {
     )
 }
 
-export default Profile;
+export default React.memo(Profile);

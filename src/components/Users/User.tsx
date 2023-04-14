@@ -46,8 +46,4 @@ const User = ({user, followingProcess, follow, unfollow}: UserPropsType) => {
         </div>
                 </div>
 }
-export default User;
-// <button disabled={followingProcess.some(id => id === user.id)}
-//         onClick={() => {
-//             unfollow(user.id)
-//         }}>Удалить из друзей</button>
+export default React.memo(User);

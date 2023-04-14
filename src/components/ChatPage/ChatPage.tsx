@@ -1,13 +1,13 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {AppStateType, useAppDispatch} from "../../redux/redux-store";
 import {sendMessageSuccess, startMessagesListening, stopMessagesListening} from "../../redux/chatPage-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {chatMessagesAPIType} from "../../api/chatPage-api";
 import anonimUser from '../../common/images/anonymous-user.webp'
 import styles from './ChatPage.module.css'
 import { UserOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
-import {AnyAction, compose} from "redux";
+import {compose} from "redux";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 import ChatPageTopPage from "./ChatPageTopPage";
 function ChatPage() {
@@ -63,7 +63,7 @@ if (isAuthScroll) {
     messagesRef.current?.scrollIntoView()
 }
 }, [messages])
-    return <div className={styles.messages}
+    return <div className={styles.message}
                 style={{height: '700px', overflowY:'auto', width: '100%', overflowX: 'hidden'}}
                 onScroll={onScrollChanged}>
         {messages.map((m) =>

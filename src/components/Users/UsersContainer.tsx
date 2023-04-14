@@ -2,7 +2,7 @@ import React from "react";
 import {useSelector} from "react-redux";
 import Users from "./Users";
 import Preloader from "../../common/preloader";
-import {getIsFetching, getUsersState} from "./users-selector";
+import {getIsFetching} from "./users-selector";
 import {compose} from "redux";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 type PropsType = {}

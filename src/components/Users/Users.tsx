@@ -69,6 +69,7 @@ const Users: React.FC<Props> = (props) => {
     }
     const onPageChanged: PaginationProps['onChange'] = (pageNumber: number) => {
         dispatch(getUsers(pageNumber, pageSize, filter))
+        scrollToTop()
     }
     const follow = (userId: number) => {
         dispatch(followThunk(userId))
@@ -94,7 +95,6 @@ const Users: React.FC<Props> = (props) => {
     useEffect(() => { window.addEventListener('scroll', makeVisible)
     }, [])
 
-    console.log(totalCount)
     return <div>
         <span className={styles.totalCount}>
            Всего пользователей: {totalCount}

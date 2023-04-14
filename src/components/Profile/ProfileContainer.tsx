@@ -49,7 +49,6 @@ class ProfileContainer extends React.Component<PropsType> {
         this.props.getProfile(userId);
 
         this.props.getStatus(userId);
-        // this.props.getMyFriends(true);
     }
     componentDidMount() {
         this.refreshProfile()
