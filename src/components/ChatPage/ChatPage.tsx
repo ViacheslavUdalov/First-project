@@ -63,8 +63,8 @@ if (isAuthScroll) {
     messagesRef.current?.scrollIntoView()
 }
 }, [messages])
-    return <div className={styles.message}
-                style={{height: '700px', overflowY:'auto', width: '100%', overflowX: 'hidden'}}
+    return <div className={styles.messages}
+                  style={{overflowY:'auto', width: '100%', overflowX: 'hidden'}}
                 onScroll={onScrollChanged}>
         {messages.map((m) =>
             <Message message={m} key={m.id}/>)}
@@ -82,7 +82,7 @@ function Message({message}: MessageType) {
         <img src={message.photo || anonimUser} alt={message.userName}
            className={styles.uniqImg}/>
         <div className={styles.name}>
-        <b>{message.userName} - userId = {message.userId}</b>
+        <b>{message.userName}</b>
         <br   />
             <div className={styles.message}>
         {message.message}

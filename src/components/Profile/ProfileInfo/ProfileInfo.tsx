@@ -11,7 +11,7 @@ import {saveProfile} from "../../../redux/profile-reducer";
 import emptyIcon from '../../../common/images/anonymous-user.webp'
 import styles from "../Profile.module.css";
 import {follow, getMyFriends, unfollow} from "../../../redux/user-reducer";
-import {getCurrentPage, getFriends, getTotalFriend} from "../../Users/users-selector";
+import {getCurrentPage, getFriends, getTotalFriend, getUsersState} from "../../Users/users-selector";
 import {NavLink} from "react-router-dom";
 import {Button, Pagination, PaginationProps, Space} from "antd";
 
@@ -28,7 +28,9 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
     const totalFriends = useAppSelector(getTotalFriend)
     const currentPage = useAppSelector(getCurrentPage)
     const pageSize = 10
+    const users = useAppSelector(getUsersState)
     const dispatch = useAppDispatch()
+    const [currentUser, setCurrentUser] = useState<UserType>()
     useEffect(() => {
         dispatch(getMyFriends(currentPage, pageSize, true))
     }, [])
@@ -50,33 +52,59 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
     }
     return (
         <div>
-            <div>
-                <div className={cn(s.info)}>
-                    <div>
-                        <img className={cn(s.imgs)} src={profile.photos.large || emptyIcon}/>
+            <div className={cn(s.info)}>
+                <div>
+                    <img className={cn(s.imgs)} src={profile.photos.large || emptyIcon}/>
 
-                        <ProfileStatusWithHooks status={status} isOwner={isOwner}/>
-                    </div>
-                    {!editMode
-                        ? <div className={s.ProfileData}><ProfileData goToEditMode={() => {
-                            setEditMode(true)
-                        }} profile={profile} isOwner={isOwner}/>
-                        </div>
-                        : <ProfileDataForm onSubmit={onSubmit}
-                                           profile={profile}
-                                           isOwner={isOwner}/>}
+                    <ProfileStatusWithHooks status={status} isOwner={isOwner}/>
                 </div>
-                {!friends && <Preloader/>}
+                {!editMode
+                    ? <div className={s.ProfileData}><ProfileData goToEditMode={() => {
+                        setEditMode(true)
+                    }} profile={profile} isOwner={isOwner}/>
+                    </div>
+                    : <ProfileDataForm onSubmit={onSubmit}
+                                       profile={profile}
+                                       isOwner={isOwner}/>}
             </div>
+            {!isOwner && currentUser &&
+                <div className={styles.buttons}>
+                                     <span className={styles.YourFriend}>
+                            {currentUser.followed ? <span>Ваш друг</span> :
+                                <span>Не ваш друг</span>}
+</span>
+                    {currentUser.followed ?
+                        <Space>
+                            <Button type="primary" danger
+                                    onClick={() => {
+                                        Unfollow(currentUser.id)
+                                    }}>Удалить из друзей</Button>
+                        </Space> :
+                        <Space>
+                            <Button type="primary"
+                                    onClick={() => {
+                                        Follow(currentUser.id)
+                                    }}>Добавить в друзья</Button>
+                        </Space>
+                    }
+                </div>
+            }
+            {!friends && <Preloader/>}
             <div className={styles.Friends}>
+                {isOwner && users.map((followedUser: UserType) =>
 
-                {isOwner && friends.map((followedUser: UserType) =>
+                     followedUser.followed &&
                         <div key={followedUser.id}>
                             <>
+
                                 {!friends ? <Preloader/> :
                                     <div className={styles.OneFriendList}>
+
                                         <div>
-                                            <NavLink to={'/profile/' + followedUser.id} className={styles.navLink}>
+
+                                            <NavLink to={'/profile/' + followedUser.id}
+                                                     onClick={() => setCurrentUser(followedUser)}
+                                                     className={styles.navLink}>
                                                 <img src={followedUser.photos.large ? followedUser.photos.large : emptyIcon}
                                                      style={{width: '30px', borderRadius: '50%'}}/>
                                                 <span className={styles.name}>
@@ -93,11 +121,12 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                                 <span>Больше не ваш друг</span>}
 </span>
                                             {followedUser.followed ?
-                                                <Space>
+                                                <Space className={styles.followed}>
                                                     <Button type="primary" danger
                                                             onClick={() => {
                                                                 Unfollow(followedUser.id)
-                                                            }}>Удалить из друзей</Button>
+                                                            }}
+                                                    >Удалить из друзей</Button>
                                                 </Space> :
                                                 <Space>
                                                     <Button type="primary"
@@ -107,7 +136,6 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                                                 </Space>
                                             }
                                         </div>
-
                                     </div>
                                 }
                                 <hr/>
@@ -116,17 +144,16 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                 )
                 }
                 {isOwner &&
-                <div className={styles.paginator}>
-                    <Pagination
-                        total={totalFriends}
-                        pageSize={pageSize}
-                        defaultCurrent={currentPage}
-                        onChange={onPageChanged}/>
-                </div>
+                    <div className={styles.paginator}>
+                        <Pagination
+                            total={totalFriends}
+                            pageSize={pageSize}
+                            defaultCurrent={currentPage}
+                            onChange={onPageChanged}/>
+                    </div>
                 }
             </div>
         </div>
     )
-
 }
 export default React.memo(ProfileInfo);

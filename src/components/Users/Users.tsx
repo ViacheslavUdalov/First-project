@@ -77,7 +77,6 @@ const Users: React.FC<Props> = (props) => {
     const unfollow = (userId: number) => {
         dispatch(unfollowThunk(userId))
     }
-
     const makeVisible = () => {
         const scrolled = document.documentElement.scrollTop;
         if (scrolled > 200) {

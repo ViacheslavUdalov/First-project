@@ -5,23 +5,35 @@
   "h h "
   "n c";
   grid-template-rows: 50px 1fr;
-  grid-template-columns: 2fr 5fr;
+  grid-template-columns: 1fr 4fr;
 }
 
 .app-wrapper-content {
   grid-area: c;
   background-color: #343434;
-  width: 60%;
+  width: 70%;
   margin-top: 20px;
   border-radius: 20px;
+display: inline-block;
 }
-@media (max-width: 1200px) {
-  .app-wrapper {
-    width: 1200px;
+
+@media only screen and  (max-width: 1024px)  {
+  .app-wrapper-content {
+    grid-area: c;
+    background-color: #343434;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 20px;
+    display: inline-block;
   }
 }
-@media (max-width:  2000px) {
-  .app-wrapper {
-    width: 1900px;
-  }
-}
+/*@media only screen and (min-width: 200px) and (max-width: 767px) {*/
+/*  .app-wrapper {*/
+/*    grid-template-columns: 2fr 7fr;*/
+/*  }*/
+/*}*/
+/*@media (max-width: 900px) {*/
+/*  .app-wrapper {*/
+/*    width: 900px;*/
+/*  }*/
+/*}*/

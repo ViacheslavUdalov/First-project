@@ -38,12 +38,14 @@ const UsersPage = (state = initialState, action: ActionsType): initialStateType 
             return {...state, users: action.users}
         }
         case SET_FRIENDS: {
-            return {...state,
-                friends: state.users.map((u: UserType) => {if (u.followed) {
-                    return {...u}
-                }
-                return u
-                }
+            return {
+                ...state,
+                friends: state.users.map((u: UserType) => {
+                        if (u.followed) {
+                            return {...u}
+                        }
+                        return u
+                    }
                 )
             }
         }
@@ -60,8 +62,10 @@ const UsersPage = (state = initialState, action: ActionsType): initialStateType 
             return {...state, isFetching: action.isFetching}
         }
         case SET_FILTER: {
-            return {...state,
-                filter: action.payload}
+            return {
+                ...state,
+                filter: action.payload
+            }
         }
         case FOLLOWINGDISABLE: {
             return {
@@ -105,7 +109,7 @@ export const actions = {
         ({type: SET_FRIENDS, friends} as const)
 }
 
-export const getUsers = (currentPage: number, pageSize: number| null,
+export const getUsers = (currentPage: number, pageSize: number | null,
                          filter: FilterType): ThunkType => async (dispatch, getState) => {
     dispatch(actions.isLoading(true))
     dispatch(actions.setCurrentPage(currentPage))
@@ -115,7 +119,7 @@ export const getUsers = (currentPage: number, pageSize: number| null,
     dispatch(actions.setUsers(data.items))
     dispatch(actions.setTotal(data.totalCount))
 }
-export const getMyFriends = (currentPage: number, pageSize: number| null, friend: boolean): ThunkType => async (dispatch) => {
+export const getMyFriends = (currentPage: number, pageSize: number | null, friend: boolean): ThunkType => async (dispatch) => {
     let data = await userAPI.getUsersAPI(currentPage, pageSize, '', friend)
     dispatch(actions.setUsers(data.items))
     dispatch(actions.setTotalFriend(data.totalCount))

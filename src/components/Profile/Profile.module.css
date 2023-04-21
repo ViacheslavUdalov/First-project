@@ -1,16 +1,17 @@
 .ButtonEdit {
    float: right;
+    position: relative;
+    top: 30px;
+    right: 100px;
+}
+
+.ProfileData {
+    min-width: 150px;
 }
 .contacts {
     font-weight: lighter;
     font-size: small;
     padding: 2px;
-}
-.fullName {
-
-}
-.info {
-
 }
 .unitInfo {
     padding: 5px;
@@ -32,18 +33,21 @@
     margin: 30px;
     justify-content: space-between;
 }
+/*@media (max-width: 1000px){*/
+/*    .followed {*/
+/*        width: 50%;*/
+/*    }*/
+/*}*/
 .buttons {
-    /*position: relative;*/
-    /*left: auto;*/
+    display: flex;
 }
 .name {
     color: white;
     margin-left: 20px;
-    position: relative;
-    bottom: 15px;
 }
 .navLink {
     text-decoration: none;
+    display: flex;
 }
 .YourFriend {
 margin-right: 20px;
@@ -52,5 +56,18 @@ margin-right: 20px;
 .status {
     position: relative;
     top: 10px;
-    left: -47px;
+}
+@media only screen and (min-width: 640px) and (max-width: 1000px) {
+    .ButtonEdit {
+        position: relative;
+        top: -150px;
+        right: 0;
+    }
+}
+@media only screen and (max-width: 640px){
+    .ButtonEdit {
+        position: relative;
+        top: -170px;
+        right: 50px;
+    }
 }
