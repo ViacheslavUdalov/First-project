@@ -10,8 +10,8 @@ import {useAppDispatch, useAppSelector} from "../../../redux/redux-store";
 import {saveProfile} from "../../../redux/profile-reducer";
 import emptyIcon from '../../../common/images/anonymous-user.webp'
 import styles from "../Profile.module.css";
-import {follow, getMyFriends, unfollow} from "../../../redux/user-reducer";
-import {getCurrentPage, getFriends, getTotalFriend, getUsersState} from "../../Users/users-selector";
+import {actions, follow, getMyFriends, unfollow} from "../../../redux/user-reducer";
+import {getCurrentPage, getCurrentUser, getFriends, getTotalFriend, getUsersState} from "../../Users/users-selector";
 import {NavLink} from "react-router-dom";
 import {Button, Pagination, PaginationProps, Space} from "antd";
 
@@ -29,10 +29,18 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
     const currentPage = useAppSelector(getCurrentPage)
     const pageSize = 10
     const users = useAppSelector(getUsersState)
+    const currentUser = useAppSelector(getCurrentUser)
     const dispatch = useAppDispatch()
-    const [currentUser, setCurrentUser] = useState<UserType>()
     useEffect(() => {
         dispatch(getMyFriends(currentPage, pageSize, true))
+    }, [])
+    useEffect(() => {
+        dispatch(actions.setCurrentUser(currentUser))
+        console.log(currentUser)
+    }, [currentUser?.followed])
+    useEffect(() => {
+        dispatch(actions.setCurrentUser(currentUser))
+        console.log(currentUser)
     }, [])
     const onPageChanged: PaginationProps['onChange'] = (pageNumber: number) => {
         dispatch(getMyFriends(pageNumber, pageSize, true))
@@ -46,16 +54,22 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
     }
     const Unfollow = (userId: number) => {
         dispatch(unfollow(userId))
+        console.log('unfollowing')
     }
     const Follow = (userId: number) => {
         dispatch(follow(userId))
+        console.log('following')
     }
+    const SetCurrentUser = (user: UserType) => {
+        dispatch(actions.setCurrentUser(user))
+        console.log(currentUser)
+    }
+    // console.log(currentUser)
     return (
         <div>
             <div className={cn(s.info)}>
                 <div>
                     <img className={cn(s.imgs)} src={profile.photos.large || emptyIcon}/>
-
                     <ProfileStatusWithHooks status={status} isOwner={isOwner}/>
                 </div>
                 {!editMode
@@ -65,7 +79,8 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                     </div>
                     : <ProfileDataForm onSubmit={onSubmit}
                                        profile={profile}
-                                       isOwner={isOwner}/>}
+                                       isOwner={isOwner}/>
+                }
             </div>
             {!isOwner && currentUser &&
                 <div className={styles.buttons}>
@@ -79,7 +94,8 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                                     onClick={() => {
                                         Unfollow(currentUser.id)
                                     }}>Удалить из друзей</Button>
-                        </Space> :
+                        </Space>
+                   :
                         <Space>
                             <Button type="primary"
                                     onClick={() => {
@@ -92,18 +108,14 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
             {!friends && <Preloader/>}
             <div className={styles.Friends}>
                 {isOwner && users.map((followedUser: UserType) =>
-
-                     followedUser.followed &&
+                        followedUser.followed &&
                         <div key={followedUser.id}>
                             <>
-
                                 {!friends ? <Preloader/> :
                                     <div className={styles.OneFriendList}>
-
                                         <div>
-
                                             <NavLink to={'/profile/' + followedUser.id}
-                                                     onClick={() => setCurrentUser(followedUser)}
+                                                     onClick={() => SetCurrentUser(followedUser)}
                                                      className={styles.navLink}>
                                                 <img src={followedUser.photos.large ? followedUser.photos.large : emptyIcon}
                                                      style={{width: '30px', borderRadius: '50%'}}/>

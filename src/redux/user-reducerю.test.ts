@@ -28,6 +28,7 @@ beforeEach(() => {
         totalFriends: 0,
         currentPage: 1,
         isFetching: false,
+        currentUser: null,
         followingProcess: [] as Array<number>,
         filter: {
             term: '',

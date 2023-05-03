@@ -15,6 +15,7 @@ const FOLLOWINGDISABLE = 'FOLLOWINGDISABLE';
 const SET_FILTER = 'SET_FILTER';
 const SET_FRIENDS = 'SET_FRIENDS';
 const SET_TOTALFRIEND = 'SET_TOTALFRIEND';
+const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 export let initialState = {
     users: [] as Array<UserType>,
@@ -23,6 +24,7 @@ export let initialState = {
     totalCount: 0,
     totalFriends: 0,
     currentPage: 1,
+    currentUser: null as UserType | null,
     isFetching: false,
     followingProcess: [] as Array<number>,
     filter: {
@@ -87,6 +89,12 @@ const UsersPage = (state = initialState, action: ActionsType): initialStateType 
                 users: MapingUsers(state.users, 'id', action.userId, {followed: false})
             }
         }
+        case SET_CURRENT_USER: {
+            return  {
+                ...state,
+                currentUser: action.payload
+            }
+        }
         default: {
             return state;
         }
@@ -106,7 +114,9 @@ export const actions = {
     setFilter: (filter: FilterType) =>
         ({type: SET_FILTER, payload: filter} as const),
     setFriends: (friends: Array<UserType>) =>
-        ({type: SET_FRIENDS, friends} as const)
+        ({type: SET_FRIENDS, friends} as const),
+    setCurrentUser: (user: UserType | null) =>
+        ({type: SET_CURRENT_USER, payload: user} as const)
 }
 
 export const getUsers = (currentPage: number, pageSize: number | null,
@@ -126,10 +136,12 @@ export const getMyFriends = (currentPage: number, pageSize: number | null, frien
 }
 export const unfollow = (userId: number): ThunkType => async (dispatch) => {
     followUnfollow(dispatch, userAPI.unfollow.bind(userAPI), actions.unfollowSuccess, userId)
+    console.log('unfollowSuccess')
 }
 
 export const follow = (userId: number): ThunkType => async (dispatch) => {
     followUnfollow(dispatch, userAPI.follow.bind(userAPI), actions.followSuccess, userId)
+    console.log('followSuccess')
 }
 const followUnfollow = async (dispatch: DispatchType,
                               APIMETHOD: (userId: number) => Promise<APIResponse>,

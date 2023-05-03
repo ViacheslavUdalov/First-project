@@ -7,3 +7,14 @@ export const MapingUsers = (items: any, objId: any, itemId: number, newObjProps:
         }
     )
 }
+// export const currentUser = (items: any, objId: any, itemId: number) => {
+//    return  items.map((u: any) => {
+//             if (u[objId] === itemId) {
+//                 return u;
+//                 console.log(u)
+//             }
+//             return u
+//        console.log(u)
+//         }
+//     )
+// }

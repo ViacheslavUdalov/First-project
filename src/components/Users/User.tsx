@@ -1,9 +1,12 @@
 import {NavLink} from "react-router-dom";
-import React from "react";
+import React, {MouseEventHandler} from "react";
 import {UserType} from "../../types/Types";
 import styles from './Users.module.css'
 import emptyIcon from '../../common/images/anonymous-user.webp'
 import {Button, Space} from 'antd';
+import {useAppDispatch, useAppSelector} from "../../redux/redux-store";
+import {actions} from "../../redux/user-reducer";
+import {getCurrentUser} from "./users-selector";
 
 type UserPropsType = {
     user: UserType
@@ -11,11 +14,18 @@ type UserPropsType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
 }
+
 const User = ({user, followingProcess, follow, unfollow}: UserPropsType) => {
+    const dispatch = useAppDispatch()
+    const currentUser = useAppSelector(getCurrentUser)
+    const SetcurrentUser = (user: UserType) => {
+        dispatch(actions.setCurrentUser(user))
+        console.log(currentUser)
+    }
     return <div className={styles.wholeUser}>
                 <div>
                     <div>
-                        <NavLink to={'/profile/' + user.id}>
+                        <NavLink to={'/profile/' + user.id} onClick={() => SetcurrentUser(user)}>
                             <img src={user.photos.large !== null ? user.photos.large : emptyIcon}
                             className={styles.userImg}/>
                         </NavLink>

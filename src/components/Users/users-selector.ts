@@ -18,6 +18,9 @@ export const getFriends = (state: AppStateType) => {
 export const getPageSize = (state: AppStateType) => {
     return state.usersPage.pageSize
 }
+export const getCurrentUser = (state: AppStateType) => {
+    return state.usersPage.currentUser
+}
 export const getTotalCount = (state: AppStateType) => {
     return  state.usersPage.totalCount
 }
