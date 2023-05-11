@@ -12,8 +12,10 @@ import emptyIcon from '../../../common/images/anonymous-user.webp'
 import styles from "../Profile.module.css";
 import {actions, follow, getMyFriends, unfollow} from "../../../redux/user-reducer";
 import {getCurrentPage, getCurrentUser, getFriends, getTotalFriend, getUsersState} from "../../Users/users-selector";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import {Button, Pagination, PaginationProps, Space} from "antd";
+import queryString from 'query-string'
+
 
 type PropsType = {
     profile: ProfileType | null
@@ -31,17 +33,20 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
     const users = useAppSelector(getUsersState)
     const currentUser = useAppSelector(getCurrentUser)
     const dispatch = useAppDispatch()
+    // const value = queryString.parse(location.search);
+    const params = useParams()
     useEffect(() => {
-        dispatch(getMyFriends(currentPage, pageSize, true))
+        if (isOwner) {
+            dispatch(getMyFriends(currentPage, pageSize, true))
+        }
     }, [])
-    useEffect(() => {
-        dispatch(actions.setCurrentUser(currentUser))
-        console.log(currentUser)
-    }, [currentUser?.followed])
-    useEffect(() => {
-        dispatch(actions.setCurrentUser(currentUser))
-        console.log(currentUser)
-    }, [])
+    // useEffect(() => {
+    //    if (!isOwner) {
+    //        dispatch(actions.setCurrentUser(currentUser))
+    //    }
+    //     console.log(params)
+    //     console.log(currentUser)
+    // }, [])
     const onPageChanged: PaginationProps['onChange'] = (pageNumber: number) => {
         dispatch(getMyFriends(pageNumber, pageSize, true))
     }
@@ -62,11 +67,18 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
     }
     const SetCurrentUser = (user: UserType) => {
         dispatch(actions.setCurrentUser(user))
+        console.log(params)
         console.log(currentUser)
     }
+    const followedUser = (users: Array<UserType>) => {
+        return users.filter((user: UserType) => user.id === currentUser?.id)
+    }
+    const FU = followedUser((users))
     // console.log(currentUser)
     return (
         <div>
+            {/*{!currentUser && <Preloader />}*/}
+            {/*{!profile && <Preloader />}*/}
             <div className={cn(s.info)}>
                 <div>
                     <img className={cn(s.imgs)} src={profile.photos.large || emptyIcon}/>
@@ -82,28 +94,34 @@ const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, status}) => {
                                        isOwner={isOwner}/>
                 }
             </div>
-            {!isOwner && currentUser &&
-                <div className={styles.buttons}>
-                                     <span className={styles.YourFriend}>
-                            {currentUser.followed ? <span>Ваш друг</span> :
+            {!isOwner && currentUser && FU.map((followUser) =>
+                <div className={styles.buttons} key = {followUser.id}>
+                        {currentUser.id !== followUser.id && <Preloader />}
+                        {currentUser.id === followUser.id &&
+                            <div>
+                            <span className={styles.YourFriend}>
+                            {followUser.followed ? <span>Ваш друг</span> :
                                 <span>Не ваш друг</span>}
 </span>
-                    {currentUser.followed ?
-                        <Space>
+                        {followUser.followed ?
+                            <Space>
                             <Button type="primary" danger
-                                    onClick={() => {
-                                        Unfollow(currentUser.id)
-                                    }}>Удалить из друзей</Button>
-                        </Space>
-                   :
-                        <Space>
+                            onClick={() => {
+                            Unfollow(followUser.id)
+                        }}>Удалить из друзей</Button>
+                            </Space>
+                            :
+                            <Space>
                             <Button type="primary"
-                                    onClick={() => {
-                                        Follow(currentUser.id)
-                                    }}>Добавить в друзья</Button>
-                        </Space>
-                    }
-                </div>
+                            onClick={() => {
+                            Follow(followUser.id)
+                        }}>Добавить в друзья</Button>
+                            </Space>
+                        }
+                            </div>
+                        }
+                    </div>
+            )
             }
             {!friends && <Preloader/>}
             <div className={styles.Friends}>

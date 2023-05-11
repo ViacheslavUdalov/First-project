@@ -115,7 +115,7 @@ export const actions = {
         ({type: SET_FILTER, payload: filter} as const),
     setFriends: (friends: Array<UserType>) =>
         ({type: SET_FRIENDS, friends} as const),
-    setCurrentUser: (user: UserType | null) =>
+    setCurrentUser: (user: UserType) =>
         ({type: SET_CURRENT_USER, payload: user} as const)
 }
 
